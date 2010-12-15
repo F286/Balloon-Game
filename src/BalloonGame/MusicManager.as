@@ -35,7 +35,7 @@ package BalloonGame
 			}
 			else if(currentState == StateManager.MENU)
 			{
-				SetMusic("mysticalPrelude");
+				//SetMusic("mysticalPrelude");
 			}
 			
 			lastState = currentState;

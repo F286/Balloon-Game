@@ -99,7 +99,7 @@ package BalloonGame.GameRelated
 			}
 			
 			// Background line
-			overlaySprite.graphics.lineStyle(6, 0xFF0000, 0.12 * tillOn, false, "normal", CapsStyle.SQUARE);
+			overlaySprite.graphics.lineStyle(6, 0xFF0000, 0.22 * tillOn, false, "normal", CapsStyle.SQUARE);
 			overlaySprite.graphics.moveTo(p1.x * PhysicsManager.Scale, p1.y * PhysicsManager.Scale); 
 			overlaySprite.graphics.lineTo(p2.x * PhysicsManager.Scale, p2.y * PhysicsManager.Scale); 
 			
