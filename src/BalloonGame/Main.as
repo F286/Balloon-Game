@@ -40,7 +40,7 @@
 		
 		private const defaultScore:Number = 99;
 		private const defaultMoney:Number = 20000;
-		public static const defaultMoneyLevelChange:Number = 15000;
+		public static const defaultMoneyLevelChange:Number = 12000;
 		
 		private var transitionIn:Transistion;
 		private var transitionOut:Transistion;
@@ -71,7 +71,6 @@
 			// Audio Manager
 			Audio = new AudioManager();
 			
-			// Score 
 			scoreManager = new ScoreManager();
 			
 			Restart(StateManager.MENU);

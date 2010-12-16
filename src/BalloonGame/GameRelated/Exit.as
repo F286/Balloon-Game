@@ -14,7 +14,7 @@ package BalloonGame.GameRelated
 		
 		public function Exit(drawObject:Sprite, density:Number = 10) 
 		{
-			super(drawObject, GameObject.BOX, density);
+			super(drawObject, GameObject.CIRCLE, density);
 			
 			this.Body.GetFixtureList().SetSensor(true);
 		}

@@ -132,6 +132,9 @@ package BalloonGame
 			// Particles
 			Particles.Update(timeStep);
 			
+			// Laser
+			Laser.LaserSoundDelay += timeStep;
+			
 			// Level finish
 			if (levelFinishTimer != -1)
 			{

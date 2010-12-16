@@ -39,6 +39,12 @@ package BalloonGame
 		[Embed(source = 'Library/mainFlash.swf', symbol = 'shortBlip')]
 		private var ShortBlip:Class;
 		
+		[Embed(source = 'Library/mainFlash.swf', symbol = 'bigLaserShot')]
+		private var BigLaserShot:Class;
+		
+		[Embed(source = 'Library/mainFlash.swf', symbol = 'laser')]
+		private var Laser:Class;
+		
 		public function AudioManager() 
 		{
 			
@@ -85,6 +91,14 @@ package BalloonGame
 			else if (name == "shortBlip")
 			{
 				return PlaySoundFile(new ShortBlip(), startTime, loops);
+			}
+			else if (name == "bigLaserShot")
+			{
+				return PlaySoundFile(new BigLaserShot(), startTime, loops);
+			}
+			else if (name == "laser")
+			{
+				return PlaySoundFile(new Laser(), startTime, loops);
 			}
 			
 			return null;

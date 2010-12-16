@@ -12,6 +12,7 @@ package BalloonGame.GameRelated
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.media.SoundChannel;
 	
 	import Box2D.Dynamics.*;
 	import Box2D.Collision.*;
@@ -39,6 +40,10 @@ package BalloonGame.GameRelated
 		
 		private var brightLaser:Number = 0;
 		
+		private var laserSound:SoundChannel;
+		
+		public static var LaserSoundDelay:Number = 0;
+		
 		public function Laser(drawObject:Sprite, onTime:Number = 1.2, offTime:Number = 2.0) 
 		{
 			super(drawObject, GameObject.BOX, 0);
@@ -62,6 +67,15 @@ package BalloonGame.GameRelated
 			{
 				EnableTimer = 0;
 				Enabled = !Enabled;
+				
+				if (Enabled)
+				{
+					if (laserSound == null && OffTime != 0 && LaserSoundDelay > 0.1)
+					{
+						LaserSoundDelay = 0;
+						Main.Audio.PlaySound("laser");
+					}
+				}
 			}
 			
 			var hitObject:Boolean = raycastManager.SendRaycast(OnRaycast);

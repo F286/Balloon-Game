@@ -21,6 +21,9 @@ package BalloonGame
 		[Embed(source='Library/mainFlash.swf', symbol='Screen4')]
 		private var Map4:Class;
 		
+		[Embed(source='Library/mainFlash.swf', symbol='Screen5')]
+		private var Map5:Class;
+		
 		[Embed(source='Library/mainFlash.swf', symbol='TutorialScreen0')]
 		private var Tutorial0:Class;
 		
@@ -34,7 +37,7 @@ package BalloonGame
 		private var Tutorial3:Class;
 		
 		public var MapNumber:Number;
-		private const totalMaps:Number = 14;
+		private const totalMaps:Number = 15;
 		
 		public function MapLoader(mapNumber:Number = 0) 
 		{
@@ -76,6 +79,10 @@ package BalloonGame
 			{
 				screen = new Map4();
 			}
+			else if (MapNumber == 15)
+			{
+				screen = new Map5();
+			}
 			else
 			{
 				screen = new Sprite();
@@ -114,7 +121,14 @@ package BalloonGame
 		public function LoadMap(gameplay:Gameplay, screen:Sprite) : void
 		{
 			// Create player
-			gameplay.player = new Player(screen["player1"])
+			if (screen.getChildByName("player1") != null)
+			{
+				gameplay.player = new Player(screen["player1"])
+			}
+			else 
+			{
+				gameplay.player = new Player(screen["player1circle"], GameObject.CIRCLE)
+			}
 			gameplay.AddGameObject(gameplay.player);
 			
 			// Create exit

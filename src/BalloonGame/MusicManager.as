@@ -5,6 +5,7 @@ package BalloonGame
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.media.SoundChannel;
+	import flash.media.SoundTransform;
 	
 	import BalloonGame.GameRelated.*;
 	
@@ -53,6 +54,7 @@ package BalloonGame
 				
 				musicTag = name;
 				music = Main.Audio.PlaySound(name, 0, 100000);
+				music.soundTransform = new SoundTransform(0.5);
 			}
 		}
 	}

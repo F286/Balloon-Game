@@ -95,7 +95,7 @@ package BalloonGame.GameStates
 		
 		private function MenuButtonClick() : void
 		{
-			gameplay.SetGameState(StateManager.MENU);
+			gameplay.SetGameState(StateManager.EXITGAME);
 			Main.Audio.PlaySound("longKnife");
 		}
 		

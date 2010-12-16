@@ -21,9 +21,9 @@ package BalloonGame.GameRelated
 	public class Player extends GameObject
 	{
 		
-		public function Player(drawObject:Sprite, density:Number = 18) 
+		public function Player(drawObject:Sprite, gameObjectType:Number = GameObject.BOX, density:Number = 18) 
 		{
-			super(drawObject, GameObject.BOX, density);
+			super(drawObject, gameObjectType, density);
 			
 			//this.Body.on
 			this.Body.SetSleepingAllowed(false);
