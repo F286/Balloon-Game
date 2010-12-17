@@ -82,7 +82,7 @@ package BalloonGame.GameRelated
 			super.Update(timeStep);
 			
 			// Lifting
-			this.Body.ApplyImpulse(new b2Vec2(0, -0.05 / timeStep), this.Body.GetPosition());
+			this.Body.ApplyImpulse(new b2Vec2(0, -0.054 / timeStep), this.Body.GetPosition());
 		}
 		
 		override public function OnDispose() : void

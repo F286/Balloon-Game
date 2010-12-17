@@ -5,10 +5,10 @@ package BalloonGame.GameStates
 	import Box2D.Dynamics.Joints.b2DistanceJointDef;
 	import Box2D.Dynamics.Joints.b2MouseJoint;
 	import Box2D.Dynamics.Joints.b2MouseJointDef;
-	import flash.display.SimpleButton;
-	import flash.display.Sprite;
+	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+	import flash.filters.*;
 	
 	import Box2D.Dynamics.*;
 	import Box2D.Collision.*;
@@ -41,6 +41,7 @@ package BalloonGame.GameStates
 		private var buildPrices:Vector.<Number>
 		
 		private var moneyText:TextField;
+		private var moneyGlowTime:Number;
 		
 		public function BuildingState(gameplay:Gameplay) 
 		{
@@ -141,6 +142,7 @@ package BalloonGame.GameStates
 						break;
 				}
 				Main.Audio.PlaySound("pop");
+				moneyGlowTime = 0;
 				
 				if (Main.IsGameMode)
 				{
@@ -160,6 +162,8 @@ package BalloonGame.GameStates
 		{
 			super.Update(timeStep);
 			
+			moneyGlowTime += timeStep;
+			
 			// Mouse controlling player
 			if (isMouseDown == true)
 			{
@@ -169,10 +173,29 @@ package BalloonGame.GameStates
 			}
 			
 			// Level timer update
-			var money:Number = Math.round(Main.scoreManager.Money);
-			moneyText.text = "$" + money.toString()
+			if (Main.IsGameMode)
+			{
+				var money:Number = Math.round(Main.scoreManager.Money);
+				moneyText.text = "$" + money.toString();
+			}
+			else
+			{
+				moneyText.text = "---";
+			}
 			moneyText.setTextFormat(new TextFormat(null, null, null, true));
+			//moneyText.textColor = 0xFF0000;
 			moneyText.antiAliasType = "ADVANCED";
+			
+			// Glow color
+			if (moneyGlowTime <= 1.1)
+			{
+				var clampTime:Number = Math.min(moneyGlowTime, 1);
+				
+				var color:uint = (0xFF * (1 - clampTime)) << 16; // red
+			    color = color | (0xFF * (clampTime)) << 8; //green
+				var glow:GlowFilter = new GlowFilter(color);
+				DisplayObject(moneyText).filters = [glow];
+			}
 		}
 		
 		public override function Dispose() : void

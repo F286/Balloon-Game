@@ -97,7 +97,7 @@ package BalloonGame.GameRelated
 		
 		public function CanFire() : Boolean
 		{
-   			if (cooldown > 1.7)
+   			if (cooldown > 1.1)
 			{
 				return true;
 			}
@@ -108,7 +108,7 @@ package BalloonGame.GameRelated
 		{
 			cooldown = 0;
 				
-			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, 380))
+			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, 320))
 			
 			if (!jointDestroyed)
 			{
@@ -124,7 +124,7 @@ package BalloonGame.GameRelated
 			var start:b2Vec2 = Body.GetWorldPoint(new b2Vec2(0, 0));
 			var end:b2Vec2 = start.Copy();
 			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
-			return new Bullet(start, end, 400, callback);
+			return new Bullet(start, end, 500, callback);
 		}
 		
 		public function UpdateAim(target:b2Vec2) : void

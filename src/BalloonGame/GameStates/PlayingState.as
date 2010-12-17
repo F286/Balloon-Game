@@ -68,7 +68,7 @@ package BalloonGame.GameStates
 						gameplay.AddBullet(playerGun.CreateBullet(OnBulletHit));
 						
 						// Plays sound
-						Main.Audio.PlaySound("distortedExplosion");
+						Main.Audio.PlaySound("bigLaserShot");
 			
 						// Particles!
 						gameplay.Particles.AddSparks(playerGun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
