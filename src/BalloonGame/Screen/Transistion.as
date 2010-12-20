@@ -2,7 +2,7 @@ package BalloonGame.Screen
 {
 	import BalloonGame.*;
 	import flash.display.*;
-	import BalloonGame.GameRelated.*;
+	import BalloonGame.Ingame.*;
 	import BalloonGame.Particles.*;
 	import BalloonGame.Physics.*;
 	import flash.events.Event;

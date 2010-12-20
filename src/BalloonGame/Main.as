@@ -1,6 +1,5 @@
 ﻿package BalloonGame
 {
-	import BalloonGame.GameRelated.*
 	import Box2D.Common.Math.b2Vec2;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -8,8 +7,10 @@
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	
+	import BalloonGame.Ingame.*
 	import BalloonGame.Physics.*;
 	import BalloonGame.Screen.*;
+	import BalloonGame.GameRelated.*;
 	
 	
 	/**

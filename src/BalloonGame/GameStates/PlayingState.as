@@ -1,12 +1,15 @@
 package BalloonGame.GameStates 
 {
-	import BalloonGame.GameRelated.*;
 	import Box2D.Common.Math.*;
 	import Box2D.Dynamics.*;
-	import flash.display.Sprite;
-	import BalloonGame.*;
+	
+	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
+	
+	import BalloonGame.*;
+	import BalloonGame.Ingame.*;
+	import BalloonGame.GameRelated.*;
 	
 	/**
 	 * ...
@@ -37,6 +40,9 @@ package BalloonGame.GameStates
 			// Level timer
 			scoreText = TextField(screenOverlay["timerText"]);
 			highestText = TextField(screenOverlay["highestText"]);
+			
+			gameplay.arrowManager.IsEnabled = true;
+			gameplay.camera.OffsetEnabled = true;
 		}
 		
 		public function MouseDown(evt:MouseEvent):void

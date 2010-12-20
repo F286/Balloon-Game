@@ -1,13 +1,12 @@
 package BalloonGame 
 {
-	import BalloonGame.GameRelated.*
+	import BalloonGame.Ingame.*
 	import BalloonGame.GameStates.*
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
 	
-	import BalloonGame.GameRelated.*;
 	
 	/**
 	 * ...
@@ -36,7 +35,7 @@ package BalloonGame
 			}
 			else if(currentState == StateManager.MENU)
 			{
-				SetMusic("mysticalPrelude");
+				//SetMusic("mysticalPrelude");
 			}
 			
 			lastState = currentState;

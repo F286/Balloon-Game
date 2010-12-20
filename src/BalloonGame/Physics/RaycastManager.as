@@ -1,16 +1,10 @@
 package BalloonGame.Physics
 {
-	import BalloonGame.GameObject;
-	import BalloonGame.Main;
-	import Box2D.Dynamics.Joints.b2DistanceJoint;
-	import Box2D.Dynamics.Joints.b2DistanceJointDef;
-	import Box2D.Dynamics.Joints.b2MouseJoint;
-	import Box2D.Dynamics.Joints.b2MouseJointDef;
-	import flash.display.MovieClip;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
+	import BalloonGame.*;
+	import BalloonGame.GameRelated.*;
+	import Box2D.Dynamics.Joints.*;
+	import flash.display.*;
+	import flash.events.*;
 	
 	import Box2D.Dynamics.*;
 	import Box2D.Collision.*;

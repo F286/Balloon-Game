@@ -9,6 +9,8 @@ package BalloonGame.Physics
 	import Box2D.Dynamics.Contacts.b2Contact;
 	
 	import BalloonGame.*;
+	import BalloonGame.GameRelated.*;
+	
 	/**
 	 * ...
 	 * @author Free

@@ -25,6 +25,11 @@ package BalloonGame
 		{
 			return new b2Vec2(GetRandomN(x), GetRandomN(x));
 		}
+		
+		public static function Clamp(number:Number, min:Number, max:Number) : Number
+		{
+			return Math.max(min, Math.min(max, number));
+		}
 	}
 
 }

@@ -1,10 +1,7 @@
 package BalloonGame.GameStates 
 {
 	import BalloonGame.GameStates.*;
-	import Box2D.Dynamics.Joints.b2DistanceJoint;
-	import Box2D.Dynamics.Joints.b2DistanceJointDef;
-	import Box2D.Dynamics.Joints.b2MouseJoint;
-	import Box2D.Dynamics.Joints.b2MouseJointDef;
+	import Box2D.Dynamics.Joints.*;
 	import flash.display.*;
 	import flash.events.*;
 	import flash.text.*;
@@ -16,6 +13,8 @@ package BalloonGame.GameStates
 	import Box2D.Common.Math.*;
 	
 	import BalloonGame.*;
+	import BalloonGame.Ingame.*;
+	import BalloonGame.Screen.*;
 	import BalloonGame.GameRelated.*;
 	
 	/**

@@ -1,11 +1,7 @@
 package BalloonGame.Particles
 {
-	import adobe.utils.CustomActions;
-	import adobe.utils.ProductManager;
 	import BalloonGame.GameStates.*;
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.display.Stage;
+	import flash.display.*;
 	import flash.events.MouseEvent;
 	
 	import Box2D.Dynamics.*;
@@ -14,8 +10,9 @@ package BalloonGame.Particles
 	import Box2D.Common.Math.*;
 	
 	import BalloonGame.Physics.*;
-	import BalloonGame.GameRelated.*;
+	import BalloonGame.Ingame.*;
 	import BalloonGame.*;
+	import BalloonGame.GameRelated.*;
 	
 	/**
 	 * ...

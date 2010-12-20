@@ -1,7 +1,9 @@
 package BalloonGame
 {
-	import BalloonGame.GameRelated.*
+	import BalloonGame.Ingame.*
 	import BalloonGame.GameStates.*
+	import BalloonGame.GameRelated.*;
+	
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	
@@ -10,7 +12,6 @@ package BalloonGame
 	import Box2D.Collision.Shapes.*;
 	import Box2D.Common.Math.*;
 	
-	import BalloonGame.GameRelated.*;
 	
 	/**
 	 * ...

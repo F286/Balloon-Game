@@ -81,6 +81,11 @@ package BalloonGame
 			}
 		}
 		
+		public static function GetScreenMousePosition() : b2Vec2
+		{
+			return new b2Vec2(screen.stage.mouseX, screen.stage.mouseY);
+		}
+		
 		//public function Dispose() : void
 		//{
 			//screen.stage.removeEventListener(KeyboardEvent.KEY_DOWN, OnKeyDown);

@@ -1,11 +1,15 @@
 package BalloonGame.GameStates 
 {
-	import BalloonGame.GameRelated.PlayerGun;
-	import Box2D.Common.Math.*;
 	import flash.display.Sprite;
-	import BalloonGame.*;
 	import flash.events.*;
 	import flash.text.*;
+	
+	import Box2D.Common.Math.*;
+	
+	import BalloonGame.*;
+	import BalloonGame.Screen.*;
+	import BalloonGame.GameRelated.*;
+	import BalloonGame.Ingame.*;
 	
 	/**
 	 * ...

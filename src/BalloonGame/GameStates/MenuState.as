@@ -1,7 +1,9 @@
 package BalloonGame.GameStates 
 {
-	import flash.display.Sprite;
+	import flash.display.*;
 	import BalloonGame.*;
+	import BalloonGame.Screen.*;
+	import BalloonGame.GameRelated.*;
 	
 	/**
 	 * ...

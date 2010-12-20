@@ -3,6 +3,7 @@ package BalloonGame.Physics
 	import flash.utils.Dictionary;
 	
 	import BalloonGame.*;
+	import BalloonGame.GameRelated.*;
 	
 	/**
 	 * ...

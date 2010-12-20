@@ -11,7 +11,7 @@ package BalloonGame.Particles
 	import Box2D.Collision.Shapes.*;
 	import Box2D.Common.Math.*;
 	
-	import BalloonGame.GameRelated.*;
+	import BalloonGame.Ingame.*;
 	/**
 	 * ...
 	 * @author Free
