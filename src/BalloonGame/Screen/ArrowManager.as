@@ -25,12 +25,13 @@ package BalloonGame.Screen
 		public var DrawObject:Sprite;
 		public var IsEnabled:Boolean = false;
 		
-		private var gameplay:Gameplay;
+		private var gameManager:GameManager;
 		
-		public function ArrowManager(gameplay:Gameplay) 
+		public function ArrowManager(gameManager:GameManager) 
 		{
 			this.DrawObject = new Arrow();
-			this.gameplay = gameplay;
+            this.DrawObject.x = -100;
+			this.gameManager = gameManager;
 		}
 		
 		public function Update(timeStep:Number) : void
@@ -47,13 +48,13 @@ package BalloonGame.Screen
 		
 		public function Draw(overlaySprite:Sprite):void 
 		{
-			var player:b2Vec2 = this.gameplay.player.Body.GetPosition().Copy();
-			player.Add(gameplay.camera.offset);
-			var exit:b2Vec2 = this.gameplay.ExitObjects[0].Body.GetPosition().Copy();
+			var player:b2Vec2 = this.gameManager.player.Body.GetPosition().Copy();
+			player.Add(gameManager.camera.offset);
+			var exit:b2Vec2 = this.gameManager.ExitObjects[0].Body.GetPosition().Copy();
 			
 			// Padded screen size
 			var padding:Number = 40;
-			var screenClamped:b2Vec2 = gameplay.camera.screenSize.Copy();
+			var screenClamped:b2Vec2 = gameManager.camera.screenSize.Copy();
 			screenClamped.x -= padding * 2;
 			screenClamped.y -= padding * 2;
 			
@@ -76,13 +77,13 @@ package BalloonGame.Screen
 			diff.y = Helper.Clamp(diff.y, -screenClamped.y / 2, screenClamped.y / 2);
 			
 			// Center of screen
-			var center:b2Vec2 = gameplay.camera.screenSize.Copy();
+			var center:b2Vec2 = gameManager.camera.screenSize.Copy();
 			center.Multiply(0.5);
 			
 			// Screen position of arrow
 			var position:b2Vec2 = center;
 			position.Add(diff);
-			position.Add(gameplay.camera.FindTargetOffset(true));
+			position.Add(gameManager.camera.FindTargetOffset(true));
 			
 			// Set arrow
 			DrawObject.x = center.x;

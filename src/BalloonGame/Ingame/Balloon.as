@@ -42,8 +42,10 @@ package BalloonGame.Ingame
 			super(bSprite, GameObject.BOX, 1);
 			
 			// Sets damping on balloon
-			this.Body.SetLinearDamping(0.05);
-			this.Body.SetAngularDamping(0.15);
+			//this.Body.SetLinearDamping(0.05);
+			//this.Body.SetAngularDamping(0.95);
+			//this.Body.SetLinearDamping(0.05);
+			//this.Body.SetAngularDamping(0.15);
 				
 			// Finds joint length
 			var bodyPoint:b2Vec2 = attachBody.GetWorldPoint(attachPosition);
@@ -80,6 +82,12 @@ package BalloonGame.Ingame
 		override public function Update(timeStep:Number):void 
 		{
 			super.Update(timeStep);
+            
+            // Damping
+            this.Body.SetAngularVelocity(this.Body.GetAngularVelocity() * 0.95);
+            var linearVelocity:b2Vec2 = this.Body.GetLinearVelocity().Copy();
+            linearVelocity.Multiply(0.98);
+            this.Body.SetLinearVelocity(linearVelocity)
 			
 			// Lifting
 			this.Body.ApplyImpulse(new b2Vec2(0, -0.054 / timeStep), this.Body.GetPosition());
@@ -99,11 +107,11 @@ package BalloonGame.Ingame
 			// Draws the "string" on joint
 			if (DistanceJoint != null && !IsDisposing)
 			{
-				var anchorA:b2Vec2 = DistanceJoint.GetAnchorA();
-				var anchorB:b2Vec2 = DistanceJoint.GetAnchorB();
+				var anchorA:b2Vec2 = DistanceJoint.GetAnchorA().Copy();
+				var anchorB:b2Vec2 = DistanceJoint.GetAnchorB().Copy();
 					
 				// Creates line repersenting joint
-				overlaySprite.graphics.lineStyle(2, 0x000000, 0.6);
+				overlaySprite.graphics.lineStyle(3, 0x000000, 0.6);
 				overlaySprite.graphics.moveTo(anchorA.x * PhysicsManager.Scale, anchorA.y * PhysicsManager.Scale); 
 				overlaySprite.graphics.lineTo(anchorB.x * PhysicsManager.Scale, anchorB.y * PhysicsManager.Scale); 
 			}

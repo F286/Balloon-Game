@@ -53,7 +53,10 @@ package BalloonGame
 				
 				musicTag = name;
 				music = Main.Audio.PlaySound(name, 0, 100000);
-				music.soundTransform = new SoundTransform(0.5);
+                if (music != null)
+                {
+                    music.soundTransform = new SoundTransform(0.5);
+                }
 			}
 		}
 	}

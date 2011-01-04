@@ -23,12 +23,12 @@ package BalloonGame.GameStates
 		private var scoreText:TextField;
 		private var nextButton:BasicButton;
 		
-		public function ScoreState(gameplay:Gameplay) 
+		public function ScoreState(gameManager:GameManager) 
 		{
-			super(gameplay);
+			super(gameManager);
 			
 			this.screenOverlay = new ScreenClass();
-			gameplay.AddStaticSprite(this.screenOverlay);
+			gameManager.AddStaticSprite(this.screenOverlay);
 			
 			// Score Text
 			scoreText = TextField(screenOverlay["scoreText"]);
@@ -42,7 +42,7 @@ package BalloonGame.GameStates
 		
 		private function NextButtonClick() : void
 		{
-			gameplay.SetGameState(StateManager.EXITGAME);
+			gameManager.SetGameState(StateManager.EXITGAME);
 			Main.Audio.PlaySound("shortKnife");
 		}
 		
@@ -51,16 +51,17 @@ package BalloonGame.GameStates
 			super.Update(timeStep);
 			
 			// Level timer update
-			var score:Number = Math.round(Main.scoreManager.Score);
-			scoreText.text = score.toString()
-			scoreText.setTextFormat(new TextFormat(null, null, null, true));
+			scoreText.text = Main.scoreManager.Score.toFixed(1).toString();
+            var scoreTextFormat:TextFormat = new TextFormat(null, null, null, true);
+            scoreTextFormat.letterSpacing = -2;
+			scoreText.setTextFormat(scoreTextFormat);
 		}
 		
 		override public function Dispose():void 
 		{
 			super.Dispose();
 			
-			//gameplay.Reset();
+			//gameManager.Reset();
 		}
 	}
 

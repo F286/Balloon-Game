@@ -44,6 +44,10 @@ package BalloonGame
 		
 		[Embed(source = 'Library/mainFlash.swf', symbol = 'laser')]
 		private var Laser:Class;
+        
+        
+        public var SoundEnabled:Boolean = false;
+        
 		
 		public function AudioManager() 
 		{
@@ -106,6 +110,11 @@ package BalloonGame
 		
 		private function PlaySoundFile(sound:Sound, startTime:Number, loops:Number) : SoundChannel
 		{
+            if (!this.SoundEnabled)
+            {
+                return null;
+            }
+            
 			return sound.play(startTime, loops);
 		}
 	}

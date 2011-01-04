@@ -26,10 +26,10 @@
 		public static var physics:PhysicsManager;
 		public static var Audio:AudioManager;
 		
-		private var gameplay:Gameplay;
+		private var gameManager:GameManager;
 		private var input:Input;
 		
-		private var stateManager:StateManager;
+		public static var stateManager:StateManager;
 		private var gameStateTarget:Number = -1;
 		
 		private var overlaySprite:Sprite;
@@ -39,9 +39,9 @@
 		
 		public static var scoreManager:ScoreManager;
 		
-		private const defaultScore:Number = 99;
-		private const defaultMoney:Number = 20000;
-		public static const defaultMoneyLevelChange:Number = 11000;
+		private const defaultScore:Number = 0;
+		private const defaultMoney:Number = 12000;
+		public static const defaultMoneyLevelChange:Number = 12000;
 		
 		private var transitionIn:Transistion;
 		private var transitionOut:Transistion;
@@ -63,6 +63,7 @@
 			// ENTRY POINT!
 			
 			stage.frameRate = 60;
+            stage.quality = "high";
 			
 			// Timer
 			mainTimer = new Timer(1000 / 60);
@@ -98,8 +99,8 @@
 				stage.removeChild(staticOverlaySprite);
 			}
 			
-			// Gameplay
-			gameplay = new Gameplay(this, OnGameStateChange);
+			// Game Manager
+			gameManager = new GameManager(this, OnGameStateChange);
 
 			// Map Loader
 			if (mapLoader == null)
@@ -110,9 +111,6 @@
 			{
 				mapLoader = new MapLoader(mapLoader.MapNumber);
 			}
-			
-			// State Manager
-			stateManager = new StateManager(gameplay, state);
 			
 			// Loads screen sprite
 			screen = mapLoader.LoadMapSprite();
@@ -131,7 +129,7 @@
 			stage.addChild(staticOverlaySprite);
 			
 			// Loads map
-			mapLoader.LoadMap(gameplay, screen);
+			mapLoader.LoadMap(gameManager, screen);
 			
 			// Transistion
 			if (transitionOut != null)
@@ -140,6 +138,9 @@
 				transitionOut = null;
 			}
 			transitionIn = new Transistion(stage, "in");
+			
+			// State Manager
+			stateManager = new StateManager(gameManager, state);
 		}
 		
 		private function Tick(event:TimerEvent):void 
@@ -159,17 +160,22 @@
 				IsGameMode = false;
 			}
 			
-			// Physics
-			physics.Update(timeStep);
-			
-			// Gameplay
-			gameplay.Draw(screen, overlaySprite, staticOverlaySprite);
-			gameplay.Update(timeStep);
+            if (stateManager.currentStateNumber == StateManager.PLAYING || stateManager.currentStateNumber == StateManager.BUILDING)
+            {
+                // Physics
+                physics.Update(timeStep);
+                
+                // Updates the game
+                gameManager.Update(timeStep);
+                gameManager.DrawGame(screen, overlaySprite, staticOverlaySprite);
+            }
+            // Updates sprites added / removed from gameManager
+            gameManager.Draw(screen, overlaySprite, staticOverlaySprite);
 			
 			// Score
 			if (stateManager.currentStateNumber == StateManager.PLAYING && IsGameMode)
 			{
-				scoreManager.DecrementScore(timeStep);
+				scoreManager.IncrementScore(timeStep);
 			}   
 			
 			// Score
@@ -177,13 +183,13 @@
 			
 			// State
 			stateManager.Update(timeStep);
-			stateManager.Draw(screen);
+			stateManager.Draw(overlaySprite);
 			
 			// Resets input
 			input.Update(timeStep);
 			
 			// Transistions
-			if (gameplay.levelFinishTimer != -1 && stateManager.currentStateNumber == StateManager.PLAYING && transitionOut == null)
+			if (gameManager.levelFinishTimer != -1 && stateManager.currentStateNumber == StateManager.PLAYING && transitionOut == null)
 			{
 				transitionOut = new Transistion(stage, "out");
 			}
@@ -247,6 +253,8 @@
 				}
 				
 			}
+            
+            event.updateAfterEvent();
 		}
 	}
 }

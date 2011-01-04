@@ -23,13 +23,13 @@ package BalloonGame.GameStates
 		private var backButton:BasicButton;
 		private var resetButton:BasicButton;
 		
-		public function HelpState(gameplay:Gameplay) 
+		public function HelpState(gameManager:GameManager) 
 		{
-			super(gameplay);
+			super(gameManager);
 			
 			// Overlay
 			screenOverlay = new ScreenClass();
-			gameplay.AddStaticSprite(screenOverlay);
+			gameManager.AddStaticSprite(screenOverlay);
 			
 			// Buttons
 			backButton = new BasicButton(screenOverlay, "backButton", OnBack);
@@ -38,7 +38,7 @@ package BalloonGame.GameStates
 		
 		public function OnBack() : void
 		{
-			gameplay.SetGameState(StateManager.MENU);
+			gameManager.SetGameState(StateManager.MENU);
 			Main.Audio.PlaySound("longKnife");
 		}
 		

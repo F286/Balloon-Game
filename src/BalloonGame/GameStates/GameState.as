@@ -22,11 +22,11 @@ package BalloonGame.GameStates
 	{
 		protected var screenOverlay:Sprite;
 		
-		protected var gameplay:Gameplay;
+		protected var gameManager:GameManager;
 		
-		public function GameState(gameplay:Gameplay) : void
+		public function GameState(gameManager:GameManager) : void
 		{
-			this.gameplay = gameplay;
+			this.gameManager = gameManager;
 		}
 		
 		public function Update(timeStep:Number) : void
@@ -42,7 +42,7 @@ package BalloonGame.GameStates
 		public function Dispose() : void
 		{
 			// Remove the screen sprite
-			gameplay.RemoveStaticSprite(screenOverlay);
+			gameManager.RemoveStaticSprite(screenOverlay);
 		}
 	}
 }

@@ -8,10 +8,10 @@ package BalloonGame
 	 */
 	public class ScoreManager
 	{
-		public var Score:Number = 0;
-		public var HighScore:Number = 0;
+		public var Score:Number;
+		public var HighScore:Number;
 		
-		public var ScoreAtCheckpoint:Number = 0;
+		public var ScoreAtCheckpoint:Number;
 		
 		public var MoneyAtCheckpoint:Number = 0;
 		public var Money:Number = 0;
@@ -29,7 +29,7 @@ package BalloonGame
 			
 			if (file.data.highScore == null)
 			{
-				file.data.highScore = 0;
+				file.data.highScore = Number.POSITIVE_INFINITY;
 			}
 			
 			this.HighScore = file.data.highScore;
@@ -42,7 +42,7 @@ package BalloonGame
 		
 		public function SaveScore() : void
 		{
-			if (this.HighScore < this.Score)
+			if (this.Score < this.HighScore)
 			{
 				this.HighScore = this.Score;
 				
@@ -81,9 +81,9 @@ package BalloonGame
 			this.Money = this.MoneyAtCheckpoint;
 		}
 		
-		public function DecrementScore(timeStep:Number) : void
+		public function IncrementScore(timeStep:Number) : void
 		{
-			Score -= timeStep;
+			Score += timeStep;
 		}
 		
 	}

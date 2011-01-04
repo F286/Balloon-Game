@@ -29,14 +29,14 @@ package BalloonGame
 		public static const ENTERGAME:Number = 7;
 		public static const EXITGAME:Number = 8;
 		
-		private var gameplay:Gameplay;
+		private var gameManager:GameManager;
 		
 		private var currentState:GameState;
 		public var currentStateNumber:Number;
 		
-		public function StateManager(gameplay:Gameplay, number:Number) 
+		public function StateManager(gameManager:GameManager, number:Number) 
 		{
-			this.gameplay = gameplay;
+			this.gameManager = gameManager;
 			
 			// Stating Game State
 			//currentStateNumber = StateManager.MENU;
@@ -55,24 +55,23 @@ package BalloonGame
 			switch (stateNumber) 
 			{
 				case StateManager.MENU:
-					trace("menu created");
-					currentState = new MenuState(gameplay);
+					currentState = new MenuState(gameManager);
 					break;
 					
 				case StateManager.BUILDING:
-					currentState = new BuildingState(gameplay);
+					currentState = new BuildingState(gameManager);
 					break;
 				
 				case StateManager.PLAYING:
-					currentState = new PlayingState(gameplay);
+					currentState = new PlayingState(gameManager);
 					break;
 				
 				case StateManager.HELP:
-					currentState = new HelpState(gameplay);
+					currentState = new HelpState(gameManager);
 					break;
 				
 				case StateManager.SCORE:
-					currentState = new ScoreState(gameplay);
+					currentState = new ScoreState(gameManager);
 					break;
 					
 				default :

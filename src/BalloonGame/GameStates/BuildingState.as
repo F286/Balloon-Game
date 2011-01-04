@@ -16,6 +16,7 @@ package BalloonGame.GameStates
 	import BalloonGame.Ingame.*;
 	import BalloonGame.Screen.*;
 	import BalloonGame.GameRelated.*;
+    import BalloonGame.Physics.*;
 	
 	/**
 	 * ...
@@ -41,18 +42,24 @@ package BalloonGame.GameStates
 		
 		private var moneyText:TextField;
 		private var moneyGlowTime:Number;
+        
+        private var startPosition:b2Vec2;
+        
+        private var scoreBoxes:ScoreBoxes;
 		
-		public function BuildingState(gameplay:Gameplay) 
+		public function BuildingState(gameManager:GameManager) 
 		{
-			super(gameplay);
+			super(gameManager);
 			
 			// Overlay
 			screenOverlay = new ScreenClass();
-			gameplay.AddStaticSprite(screenOverlay);
+            MovieClip(screenOverlay).gotoAndStop(1);
+            MovieClip(screenOverlay).addEventListener(Event.EXIT_FRAME, ScreenOverlayExitFrame);
+			gameManager.AddStaticSprite(screenOverlay);
 			
 			// Mouse Events
-			gameplay.AttachEvents.addEventListener(MouseEvent.MOUSE_DOWN, MouseDown);
-			gameplay.AttachEvents.addEventListener(MouseEvent.MOUSE_UP, MouseUp);
+			gameManager.AttachEvents.addEventListener(MouseEvent.MOUSE_DOWN, MouseDown);
+			gameManager.AttachEvents.addEventListener(MouseEvent.MOUSE_UP, MouseUp);
 			
 			// Buttons
 			buildMode = 0;
@@ -60,17 +67,38 @@ package BalloonGame.GameStates
 			buttonList.push(new BasicButton(screenOverlay, "balloonButton", OnBalloonButton, true));
 			buttonList.push(new BasicButton(screenOverlay, "gunButton", OnGunButton, true));
 			buttonList.push(new BasicButton(screenOverlay, "thrusterButton", OnThrusterButton, true));
+			buttonList.push(new BasicButton(screenOverlay, "rapidGunButton", OnRapidFireButton, true));
 			
-			nextButton = new BasicButton(screenOverlay, "nextButton", NextButtonClick);
+			//nextButton = new BasicButton(screenOverlay, "nextButton", NextButtonClick);
 			menuButton = new BasicButton(screenOverlay, "menuButton", MenuButtonClick);
 			
 			buildPrices = new Vector.<Number>();
 			buildPrices.push(1000);
 			buildPrices.push(5000);
 			buildPrices.push(10000);
+			buildPrices.push(6000);
 			
-			moneyText = TextField(screenOverlay["moneyText"]);
+			moneyText = TextField(screenOverlay["moneyBox"]["moneyText"]);
+            
+            // Enabled / Disabled
+			gameManager.camera.OffsetEnabled = true;
+            gameManager.IsIngame = true;
+            
+            // Start position
+            startPosition = gameManager.player.Body.GetPosition().Copy();
+            
+            // Score Boxes
+            scoreBoxes = new ScoreBoxes(screenOverlay);
 		}
+        
+        private function ScreenOverlayExitFrame(evt:Event) : void
+        {
+            if (MovieClip(screenOverlay).currentFrame == MovieClip(screenOverlay).totalFrames - 3)
+            {
+                gameManager.SetGameState(StateManager.PLAYING);
+                Main.Audio.PlaySound("longBeep");
+            }
+        }
 		
 		private function OnBalloonButton() : void
 		{
@@ -86,16 +114,15 @@ package BalloonGame.GameStates
 		{
 			buildMode = 2;
 		}
-		
-		private function NextButtonClick() : void
+        
+		private function OnRapidFireButton() : void
 		{
-			gameplay.SetGameState(StateManager.PLAYING);
-			Main.Audio.PlaySound("longBeep");
+			buildMode = 3;
 		}
 		
 		private function MenuButtonClick() : void
 		{
-			gameplay.SetGameState(StateManager.EXITGAME);
+			gameManager.SetGameState(StateManager.EXITGAME);
 			Main.Audio.PlaySound("longKnife");
 		}
 		
@@ -120,25 +147,34 @@ package BalloonGame.GameStates
 			var mouse:b2Vec2 = Input.GetMousePosition();
 			
 			// Adds object on mouse click
-			if (attachBody != null && attachBody == gameplay.player.Body && Main.scoreManager.Money >= buildPrices[buildMode])
+			if (attachBody != null && attachBody == gameManager.player.Body && Main.scoreManager.Money >= buildPrices[buildMode])
 			{
 				switch (buildMode) 
 				{
 					case 0:
 						var bObject:Balloon = new Balloon(mouse, attachBody, attachPosition);
-						gameplay.AddSprite(bObject.DrawObject);
-						gameplay.AddGameObject(bObject);
+						gameManager.AddSprite(bObject.DrawObject);
+						gameManager.AddGameObject(bObject);
 						break;
+                        
 					case 1:
-						var bObject2:PlayerGun = new PlayerGun(mouse, attachBody, attachPosition);
-						gameplay.AddSprite(bObject2.DrawObject);
-						gameplay.AddGameObject(bObject2);
+						var bObject2:GunRaycast = new GunRaycast(mouse, attachBody, attachPosition);
+						gameManager.AddSprite(bObject2.DrawObject);
+						gameManager.AddGameObject(bObject2);
 						break;
+                        
 					case 2:
 						var bObject3:Thruster = new Thruster(mouse, attachBody, attachPosition);
-						gameplay.AddSprite(bObject3.DrawObject);
-						gameplay.AddGameObject(bObject3);
+						gameManager.AddSprite(bObject3.DrawObject);
+						gameManager.AddGameObject(bObject3);
 						break;
+                        
+					case 3:
+						var bObject4:RapidGun = new RapidGun(mouse, attachBody, attachPosition);
+						gameManager.AddSprite(bObject4.DrawObject);
+						gameManager.AddGameObject(bObject4);
+						break;
+                        
 				}
 				Main.Audio.PlaySound("pop");
 				moneyGlowTime = 0;
@@ -150,7 +186,7 @@ package BalloonGame.GameStates
 				}
 				
 				// Particles!
-				gameplay.Particles.AddSparks(mouse, 5);
+				gameManager.Particles.AddSparks(mouse, 5);
 			}
 			
 			this.attachBody = null;
@@ -163,15 +199,14 @@ package BalloonGame.GameStates
 			
 			moneyGlowTime += timeStep;
 			
-			// Mouse controlling player
+			// Particles on mouse down
 			if (isMouseDown == true)
 			{
-				// Particles!
-				var mouse:b2Vec2 = BalloonGame.Input.GetMousePosition();
-				gameplay.Particles.AddSparks(mouse);
+				var mouse:b2Vec2 = Input.GetMousePosition();
+				gameManager.Particles.AddSparks(mouse);
 			}
 			
-			// Level timer update
+			// Amount of money player has
 			if (Main.IsGameMode)
 			{
 				var money:Number = Math.round(Main.scoreManager.Money);
@@ -182,10 +217,9 @@ package BalloonGame.GameStates
 				moneyText.text = "---";
 			}
 			moneyText.setTextFormat(new TextFormat(null, null, null, true));
-			//moneyText.textColor = 0xFF0000;
 			moneyText.antiAliasType = "ADVANCED";
 			
-			// Glow color
+			// Glow color for money
 			if (moneyGlowTime <= 1.1)
 			{
 				var clampTime:Number = Math.min(moneyGlowTime, 1);
@@ -195,23 +229,60 @@ package BalloonGame.GameStates
 				var glow:GlowFilter = new GlowFilter(color);
 				DisplayObject(moneyText).filters = [glow];
 			}
+            
+            // Player out of "range" of start
+            var startDiff:b2Vec2 = gameManager.player.Body.GetPosition().Copy();
+            startDiff.Subtract(startPosition.Copy());
+            if (startDiff.LengthSquared() > 3)
+            {
+                MovieClip(screenOverlay).play();
+            }
+            
+            // Score boxes
+            scoreBoxes.Update(timeStep);
+            
+			// Reset Level
+			if (Input.IsKeyDown("r".charCodeAt()))
+			{
+				Main.scoreManager.LoadCheckpoint();
+				gameManager.SetGameState(StateManager.RESETTHENBUILDING);
+			}
 		}
+        
+        override public function Draw(overlaySprite:Sprite):void 
+        {
+            super.Draw(overlaySprite);
+            
+            // Balloon String
+			if (attachBody != null && attachBody == gameManager.player.Body && Main.scoreManager.Money >= buildPrices[buildMode])
+			{
+                var anchorA:b2Vec2 = attachBody.GetWorldPoint(attachPosition.Copy()).Copy();
+                var anchorB:b2Vec2 = Input.GetMousePosition().Copy();
+                    
+                // Creates line repersenting joint
+                overlaySprite.graphics.lineStyle(3, 0x000000, 0.6);
+                overlaySprite.graphics.moveTo(anchorA.x * PhysicsManager.Scale, anchorA.y * PhysicsManager.Scale); 
+                overlaySprite.graphics.lineTo(anchorB.x * PhysicsManager.Scale, anchorB.y * PhysicsManager.Scale); 
+            }
+        }
 		
 		public override function Dispose() : void
 		{
 			super.Dispose();
 			
 			// Mouse Events
-			gameplay.AttachEvents.removeEventListener(MouseEvent.MOUSE_DOWN, MouseDown);
-			gameplay.AttachEvents.removeEventListener(MouseEvent.MOUSE_UP, MouseUp);
+			gameManager.AttachEvents.removeEventListener(MouseEvent.MOUSE_DOWN, MouseDown);
+			gameManager.AttachEvents.removeEventListener(MouseEvent.MOUSE_UP, MouseUp);
 
 			// Buttons
 			for (var i:int = 0; i < buttonList.length; i++) 
 			{
 				buttonList[i].Dispose(screenOverlay);
 			}
-			nextButton.Dispose(screenOverlay);
 			menuButton.Dispose(screenOverlay);
+            
+            // Movieclip events
+            MovieClip(screenOverlay).removeEventListener(Event.EXIT_FRAME, ScreenOverlayExitFrame);
 		}
 	}
 

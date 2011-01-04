@@ -25,13 +25,13 @@ package BalloonGame.Particles
 		
 		public var Particles:Vector.<Particle>;
 		
-		private var gameplay:Gameplay;
+		private var gamemanager:GameManager;
 		
 		public static var MaxParticles:int = 60;
 		
-		public function ParticleManager(gameplay:Gameplay) 
+		public function ParticleManager(gamemanager:GameManager) 
 		{
-			this.gameplay = gameplay;
+			this.gamemanager = gamemanager;
 			
 			Particles = new Vector.<Particle>();
 		}
@@ -44,7 +44,7 @@ package BalloonGame.Particles
 				
 				if (Particles[i].Time >= 1)
 				{
-					gameplay.RemoveSprite(Particles[i].DrawObject);
+					gamemanager.RemoveSprite(Particles[i].DrawObject);
 					Particles.splice(i, 1);
 					i--;
 				}
@@ -115,7 +115,7 @@ package BalloonGame.Particles
 			position.Multiply(PhysicsManager.Scale);
 			velocity.Multiply(PhysicsManager.Scale);
 			
-			gameplay.AddSprite(sprite);
+			gamemanager.AddSprite(sprite);
 			
 			// Physics
 			sprite.x = position.x;

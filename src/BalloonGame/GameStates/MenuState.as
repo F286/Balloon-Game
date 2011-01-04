@@ -16,35 +16,35 @@ package BalloonGame.GameStates
 		
 		private var buttonList:Vector.<BasicButton>;
 		
-		public function MenuState(gameplay:Gameplay)
+		public function MenuState(gameManager:GameManager)
 		{
-			super(gameplay);
+			super(gameManager);
 			
 			// Overlay
 			screenOverlay = new ScreenClass();
-			gameplay.AddStaticSprite(screenOverlay);
+			gameManager.AddStaticSprite(screenOverlay);
 			
 			// Buttons
 			buttonList = new Vector.<BasicButton>();
 			buttonList.push(new BasicButton(screenOverlay, "playButton", OnPlay));
 			buttonList.push(new BasicButton(screenOverlay, "helpButton", OnHelp));
-			buttonList.push(new BasicButton(screenOverlay, "exitButton", OnExit));
+			//buttonList.push(new BasicButton(screenOverlay, "exitButton", OnExit));
 		}
 		
 		private function OnPlay() : void
 		{
-			gameplay.SetGameState(StateManager.ENTERGAME);
+			gameManager.SetGameState(StateManager.ENTERGAME);
 			Main.Audio.PlaySound("shortKnife");
 		}
 		private function OnHelp() : void
 		{
-			gameplay.SetGameState(StateManager.HELP);
+			gameManager.SetGameState(StateManager.HELP);
 			Main.Audio.PlaySound("shortKnife");
 		}
-		private function OnExit() : void
-		{
-			
-		}
+		//private function OnExit() : void
+		//{
+			//
+		//}
 		
 		override public function Dispose():void 
 		{

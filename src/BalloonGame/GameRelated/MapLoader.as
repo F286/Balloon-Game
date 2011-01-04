@@ -40,7 +40,7 @@ package BalloonGame.GameRelated
 		public var MapNumber:Number;
 		private const totalMaps:Number = 15;
 		
-		public function MapLoader(mapNumber:Number = 0) 
+		public function MapLoader(mapNumber:Number = 11) 
 		{
 			this.MapNumber = mapNumber;
 		}
@@ -116,24 +116,24 @@ package BalloonGame.GameRelated
 		
 		public function ResetMapNumber() : void
 		{
-			MapNumber = 1;
+			MapNumber = 0;
 		}
 		
-		public function LoadMap(gameplay:Gameplay, screen:Sprite) : void
+		public function LoadMap(gameManager:GameManager, screen:Sprite) : void
 		{
 			// Create player
 			if (screen.getChildByName("player1") != null)
 			{
-				gameplay.player = new Player(screen["player1"])
+				gameManager.player = new Player(screen["player1"])
 			}
 			else 
 			{
-				gameplay.player = new Player(screen["player1circle"], GameObject.CIRCLE)
+				gameManager.player = new Player(screen["player1circle"], GameObject.CIRCLE)
 			}
-			gameplay.AddGameObject(gameplay.player);
+			gameManager.AddGameObject(gameManager.player);
 			
 			// Create exit
-			gameplay.AddGameObject(new Exit(screen["exit"], 0));
+			gameManager.AddGameObject(new Exit(screen["exit"], 0));
 			
 			for (var i:Number = 0; i < screen.numChildren; i++)
 			{
@@ -143,52 +143,52 @@ package BalloonGame.GameRelated
 					
 					if (obj.name == "exit")
 					{
-						gameplay.AddGameObject(new Exit(obj, 0));
+						gameManager.AddGameObject(new Exit(obj, 0));
 					}
 					else if (obj.name == "staticBox")
 					{
-						gameplay.AddGameObject(new GameObject(obj, GameObject.BOX, 0));
+						gameManager.AddGameObject(new GameObject(obj, GameObject.BOX, 0));
 					}
 					else if (obj.name == "dynamicBox")
 					{
-						gameplay.AddGameObject(new GameObject(obj, GameObject.BOX, 10));
+						gameManager.AddGameObject(new GameObject(obj, GameObject.BOX, 10));
 					}
 					else if (obj.name == "staticCircle")
 					{
-						gameplay.AddGameObject(new GameObject(obj, GameObject.CIRCLE, 0));
+						gameManager.AddGameObject(new GameObject(obj, GameObject.CIRCLE, 0));
 					}
 					else if (obj.name == "dynamicCircle")
 					{
-						gameplay.AddGameObject(new GameObject(obj, GameObject.CIRCLE, 10));
+						gameManager.AddGameObject(new GameObject(obj, GameObject.CIRCLE, 10));
 					}
 					else if (obj.name == "staticObstacle")
 					{
-						gameplay.AddGameObject(new Obstacle(obj, GameObject.BOX, 0));
+						gameManager.AddGameObject(new Obstacle(obj, GameObject.BOX, 0));
 					}
 					else if (obj.name == "staticObstacleCircle")
 					{
-						gameplay.AddGameObject(new Obstacle(obj, GameObject.CIRCLE));
+						gameManager.AddGameObject(new Obstacle(obj, GameObject.CIRCLE));
 					}
 					else if (obj.name == "dynamicObstacle")
 					{
-						gameplay.AddGameObject(new Obstacle(obj, GameObject.BOX, 10));
+						gameManager.AddGameObject(new Obstacle(obj, GameObject.BOX, 10));
 					}
 					else if (obj.name == "dynamicObstacleCircle")
 					{
-						gameplay.AddGameObject(new Obstacle(obj, GameObject.CIRCLE, 10));
+						gameManager.AddGameObject(new Obstacle(obj, GameObject.CIRCLE, 10));
 					}
 					else if (obj.name == "laser")
 					{
-						gameplay.AddGameObject(new Laser(obj));
+						gameManager.AddGameObject(new Laser(obj));
 					}
 					else if (obj.name == "laserOn")
 					{
-						gameplay.AddGameObject(new Laser(obj, 1, 0));
+						gameManager.AddGameObject(new Laser(obj, 1, 0));
 					}
 				}
 			}
 			
-			gameplay.Initalize();
+			gameManager.Initalize();
 		}
 	}
 

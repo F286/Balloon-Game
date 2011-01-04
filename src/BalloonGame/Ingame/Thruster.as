@@ -25,6 +25,9 @@ package BalloonGame.Ingame
 		
 		public var DistanceJoint:b2DistanceJoint;
 		private var jointDestroyed:Boolean = false;
+        
+        private var attachP:b2Vec2;
+        private var attachB:b2Body;
 		
 		private var cooldown:Number = 100;
 		
@@ -39,7 +42,7 @@ package BalloonGame.Ingame
 			
 			super(bSprite, GameObject.BOX, 5);
 			
-			// Sets damping on balloon
+			// Sets damping on thruster
 			this.Body.SetLinearDamping(0.6);
 			this.Body.SetAngularDamping(1.0);
 			
@@ -55,14 +58,16 @@ package BalloonGame.Ingame
 			//distanceJointDef.localAnchorA = new b2Vec2(0, 0.5);
 			distanceJointDef.localAnchorB = attachPosition;
 			distanceJointDef.length = 0.0;
-			distanceJointDef.collideConnected = true;
-			distanceJointDef.frequencyHz = 10;
+			distanceJointDef.frequencyHz = 1;
 			distanceJointDef.dampingRatio = 0.1;
 			distanceJointDef.collideConnected = false;
 			this.DistanceJoint = PhysicsManager.World.CreateJoint(distanceJointDef) as b2DistanceJoint;
 			this.DistanceJoint.noMinDistance = true;
 			
 			this.Body.GetFixtureList().SetSensor(true);
+            
+            this.attachP = attachPosition;
+            this.attachB = attachBody;
 		}
 		
 		private function ExitFrame(event:Event) : void
@@ -87,6 +92,8 @@ package BalloonGame.Ingame
 			
 			var aV:Number = this.Body.GetAngularVelocity();
 			this.Body.SetAngularVelocity(aV * 0.95);
+            
+            this.Body.SetPosition(attachB.GetWorldPoint(attachP));
 		}
 		
 		public function CanFire() : Boolean
@@ -102,7 +109,7 @@ package BalloonGame.Ingame
 		{
 			cooldown = 0;
 				
-			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, -7))
+			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, -7.5))
 			
 			if (!jointDestroyed)
 			{
