@@ -33,13 +33,16 @@ package BalloonGame.GameRelated
 		private var p1:b2Vec2;
 		private var p2:b2Vec2;
 		
-		public function Bullet(startPoint:b2Vec2, endPoint:b2Vec2, impulse:Number, callback:Function = null) 
+		private var damage:Number;
+		
+		public function Bullet(startPoint:b2Vec2, endPoint:b2Vec2, impulse:Number, damage:Number, callback:Function = null) 
 		{
 			this.raycastManager = new RaycastManager(startPoint, endPoint);
 			this.impulse = impulse
 			this.callback = callback;
+			this.damage = damage;
 			
-			p1 = startPoint;
+			this.p1 = startPoint;
 		}
 		
 		public function Update(timeStep:Number) : void
@@ -48,7 +51,6 @@ package BalloonGame.GameRelated
 			{
 				raycastManager.SendRaycast(OnRaycast);
 			}
-			
 		}
 		
 		public function Draw(overlaySprite:Sprite):void 
@@ -78,6 +80,11 @@ package BalloonGame.GameRelated
 			callback(body, contactPoint, direction);
 			
 			p2 = contactPoint;
+			
+			if (body.GetUserData() is ComplexGameObject)
+			{
+				ComplexGameObject(body.GetUserData()).DamageTaken += damage;
+			}
 		}
 		
 		public function OnDispose() : void

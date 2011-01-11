@@ -33,7 +33,7 @@ package BalloonGame.GameStates
             // Current time update
 			scoreText.text = Main.scoreManager.Score.toFixed(1).toString();
             var scoreTextFormat:TextFormat = new TextFormat(null, null, null, true);
-            scoreTextFormat.letterSpacing = -2;
+            scoreTextFormat.letterSpacing = -1;
 			scoreText.setTextFormat(scoreTextFormat);
 			scoreText.antiAliasType = "ADVANCED";
 			

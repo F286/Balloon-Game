@@ -34,27 +34,41 @@ package BalloonGame
 		
 		public function Update(timeStep:Number) : void
 		{
-			if (keysPressed.length != 0)
-			{
-				keysPressed = new Vector.<uint>();
-			}
+			//if (keysPressed.length != 0)
+			//{
+				//keysPressed = new Vector.<uint>();
+			//}
 		}
 		
 		private function OnKeyDown(event:KeyboardEvent):void
 		{
-			keysPressed.push(event.charCode);
+			var containKey:Boolean = false;
+			
+			for (var i:int = 0; i < keysPressed.length; i++) 
+			{
+				if (keysPressed[i] == event.charCode)
+				{
+					containKey = true;
+					break;
+				}
+			}
+			
+			if (containKey == false)
+			{
+				keysPressed.push(event.charCode);
+			}
 		}
 		
 		private function OnKeyUp(event:KeyboardEvent):void
 		{
-			//for (var i:int = 0; i < keysPressed.length; i++) 
-			//{
-				//if (keysPressed[i] == event.charCode)
-				//{
-					//keysPressed.splice(i, 1);
-					//break;
-				//}
-			//}
+			for (var i:int = 0; i < keysPressed.length; i++) 
+			{
+				if (keysPressed[i] == event.charCode)
+				{
+					keysPressed.splice(i, 1);
+					break;
+				}
+			}
 		}
 		
 		public static function IsKeyDown(charCode:uint) : Boolean

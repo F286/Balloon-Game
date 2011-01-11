@@ -23,7 +23,7 @@ package BalloonGame.Ingame
 		
 		public function Player(drawObject:Sprite, gameObjectType:Number = GameObject.BOX, density:Number = 18) 
 		{
-			super(drawObject, gameObjectType, density);
+			super(drawObject, gameObjectType, density, -1);
 			
 			//this.Body.on
 			this.Body.SetSleepingAllowed(false);

@@ -1,7 +1,10 @@
 package BalloonGame.GameRelated 
 {
+	import BalloonGame.Enemies.Airmine;
 	import BalloonGame.Ingame.*;
 	import BalloonGame.GameRelated.*;
+	import BalloonGame.Physics.PhysicsManager;
+	import Box2D.Common.Math.b2Vec2;
 	import flash.display.*;
 	
 	/**
@@ -184,6 +187,27 @@ package BalloonGame.GameRelated
 					else if (obj.name == "laserOn")
 					{
 						gameManager.AddGameObject(new Laser(obj, 1, 0));
+					}
+					else if (obj.name == "mine")
+					{
+						// Gets position of mine
+						var minePosition:b2Vec2 = new b2Vec2(obj.x, obj.y);
+						minePosition.Multiply(1 / PhysicsManager.Scale);
+						
+						// The mine
+						var mine:Airmine = new Airmine(minePosition, obj);
+						gameManager.AddSprite(mine.DrawObject);
+						gameManager.AddGameObject(mine);
+						
+						// The balloon
+						var bPosition:b2Vec2 = minePosition.Copy();
+						bPosition.y -= 2;
+						var balloon:Balloon = new Balloon(bPosition, mine.Body, new b2Vec2(0, -0.5));
+						gameManager.AddSprite(balloon.DrawObject);
+						gameManager.AddGameObject(balloon);
+						
+						// Removes placeholder graphic
+						//screen.removeChild(obj);
 					}
 				}
 			}

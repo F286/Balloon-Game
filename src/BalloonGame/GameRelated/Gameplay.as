@@ -1,7 +1,9 @@
 package BalloonGame.GameRelated 
 {
+	import BalloonGame.Enemies.Airmine;
 	import Box2D.Common.Math.*;
 	import Box2D.Dynamics.*;
+	import flash.utils.getQualifiedClassName;
 	
 	import flash.display.*;
 	import flash.events.*;
@@ -42,68 +44,98 @@ package BalloonGame.GameRelated
         
 		public function Update(timeStep:Number) : void
 		{
+			var keyboardDirection:b2Vec2 = new b2Vec2(0, 0);
+			
+			if (Input.IsKeyDown("w".charCodeAt()))
+			{
+				keyboardDirection.y += 1;
+			}
+			if (Input.IsKeyDown("s".charCodeAt()))
+			{
+				keyboardDirection.y += -1;
+			}
+			if (Input.IsKeyDown("a".charCodeAt()))
+			{
+				keyboardDirection.x += -1;
+			}
+			if (Input.IsKeyDown("d".charCodeAt()))
+			{
+				keyboardDirection.x += 1;
+			}
+			
 			for (var i:int = 0; i < gameManager.GameObjects.length; i++) 
 			{
-                // Player Gun
-				if (gameManager.GameObjects[i] is GunRaycast)
+				switch (getQualifiedClassName(gameManager.GameObjects[i])) 
 				{
-					var gunRaycast:GunRaycast = GunRaycast(gameManager.GameObjects[i]);
-					
-					if (Input.IsKeyDown(32) && gunRaycast.CanFire()) // Space
-					{
-						// Fires player's gun
-						gunRaycast.Fire();
+					case getQualifiedClassName(DefaultGun):
+						var gun:DefaultGun = DefaultGun(gameManager.GameObjects[i]);
 						
-						// Creates bullet
-						gameManager.AddBullet(gunRaycast.CreateBullet(OnBulletHit));
-						
-						// Plays sound
-						Main.Audio.PlaySound("bigLaserShot");
-			
-						// Particles!
-						gameManager.Particles.AddSparks(gunRaycast.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
-					}
-					gunRaycast.UpdateAim(Input.GetMousePosition());
-				}
-                // Rapid Gun
-				if (gameManager.GameObjects[i] is RapidGun)
-				{
-					var rapidGun:RapidGun = RapidGun(gameManager.GameObjects[i]);
-					
-					if (Input.IsKeyDown(32) && rapidGun.CanFire()) // Space
-					{
-						// Fires player's gun
-						rapidGun.Fire();
-						
-						// Creates bullet
-						gameManager.AddBullet(rapidGun.CreateBullet(OnBulletHit));
-						
-						// Plays sound
-						Main.Audio.PlaySound("bigLaserShot");
-			
-						// Particles!
-						gameManager.Particles.AddSparks(rapidGun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
-					}
-					rapidGun.UpdateAim(Input.GetMousePosition());
-				}
-                // Thruster
-				else if (gameManager.GameObjects[i] is Thruster)
-				{
-					var thruster:Thruster = Thruster(gameManager.GameObjects[i]);
-					
-					if (isMouseDown == true)
-					{
-						thruster.ApplyThrust();
-			
-						// Particles!
-						if (Helper.GetRandom(0, 1) < 0.4)
+						if (isMouseDown && gun.CanFire() && gameManager.IsIngame)
 						{
-							var position:b2Vec2 = thruster.Body.GetWorldPoint(new b2Vec2(0, 0.2));
-							var direction:b2Vec2 = thruster.Body.GetWorldVector(new b2Vec2(0, 10));
-							gameManager.Particles.AddDirectional(position, direction, "lighten", 1, 1);
+							// Fires player's gun
+							gameManager.AddBullet(gun.Fire(OnBulletHit));
+							
+							// Particles!
+							gameManager.Particles.AddSparks(gun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
 						}
-					}
-					thruster.UpdateAim(Input.GetMousePosition());
+						gun.UpdateAim(Input.GetMousePosition());
+						
+						break;
+						
+					
+					case getQualifiedClassName(RapidGun):
+						var rapidGun:RapidGun = RapidGun(gameManager.GameObjects[i]);
+						
+						if (isMouseDown && rapidGun.CanFire() && gameManager.IsIngame)
+						{
+							// Fires player's gun
+							gameManager.AddBullet(rapidGun.Fire(OnBulletHit));
+							
+							// Particles!
+							gameManager.Particles.AddSparks(rapidGun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
+						}
+						rapidGun.UpdateAim(Input.GetMousePosition());
+						break;
+						
+						
+					case getQualifiedClassName(Thruster):
+						var thruster:Thruster = Thruster(gameManager.GameObjects[i]);
+						
+						if (keyboardDirection.x != 0 || keyboardDirection.y != 0)
+						{
+							thruster.UpdateAim(keyboardDirection);
+							thruster.ApplyThrust();
+				
+							// Particles!
+							if (Helper.GetRandom(0, 1) < 0.1)
+							{
+								var position:b2Vec2 = thruster.Body.GetWorldPoint(new b2Vec2(0, 0.2));
+								var direction:b2Vec2 = thruster.Body.GetWorldVector(new b2Vec2(0, 10));
+								gameManager.Particles.AddDirectional(position, direction, "lighten", 1, 1);
+							}
+						}
+						else
+						{
+							thruster.UpdateAim(Input.GetMousePosition(true), true);
+						}
+						break;
+						
+						
+					case getQualifiedClassName(Airmine):
+						var airmine:Airmine = Airmine(gameManager.GameObjects[i]);
+						break;
+						
+						
+					case getQualifiedClassName(Balloon):
+						if (gameManager.GameObjects[i].IsDisposing == true)
+						{
+							gameManager.Particles.AddElectricSparks(gameManager.GameObjects[i].Body.GetPosition(), 5, 4);
+						}
+						break;
+					
+						
+					default:
+						break;
 				}
 				
 			}

@@ -54,7 +54,7 @@ package BalloonGame.GameStates
 			}
             
 			// Skip Level
-			if (Input.IsKeyDown("s".charCodeAt()))
+			if (Input.IsKeyDown("o".charCodeAt()))
 			{
                 this.gameManager.player.Body.SetPosition(this.gameManager.ExitObjects[0].Body.GetPosition());
 			}

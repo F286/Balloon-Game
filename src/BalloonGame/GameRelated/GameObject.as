@@ -1,5 +1,7 @@
 package BalloonGame.GameRelated 
 {
+	import Box2D.Dynamics.Joints.b2Joint;
+	import Box2D.Dynamics.Joints.b2JointEdge;
 	import flash.display.Sprite;
 	
 	import Box2D.Dynamics.*;
@@ -100,6 +102,13 @@ package BalloonGame.GameRelated
 		public function OnDispose() : void
 		{
 			//Physics.ContactM.RemoveGameObject(this);
+			
+			//var remove:b2JointEdge = this.Body.GetJointList();
+			//while (remove != null)
+			//{
+				//PhysicsManager.World.DestroyJoint(remove.joint);
+				//remove = remove.next;
+			//}
 			PhysicsManager.ContactM.RemoveEvents(this);
 			PhysicsManager.World.DestroyBody(this.Body);
 		}

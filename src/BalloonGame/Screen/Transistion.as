@@ -35,11 +35,11 @@ package BalloonGame.Screen
 			}
 				
 			// Sets bitmap caching for alpha mask
-			transistion["mask1"].cacheAsBitmap = true;
-			transistion["checker1MC"].mask = transistion["mask1"];
-			
-			transistion["mask2"].cacheAsBitmap = true;
-			transistion["checker2MC"].mask = transistion["mask2"];
+			//transistion["mask1"].cacheAsBitmap = true;
+			//transistion["checker1MC"].mask = transistion["mask1"];
+			//
+			//transistion["mask2"].cacheAsBitmap = true;
+			//transistion["checker2MC"].mask = transistion["mask2"];
 			
 			// Stops movie when done
 			transistion.addEventListener(Event.EXIT_FRAME, OnExitFrame);

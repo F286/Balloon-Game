@@ -109,7 +109,7 @@ package BalloonGame.Ingame
 		{
 			cooldown = 0;
 				
-			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, -7.5))
+			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, -1.5))
 			
 			if (!jointDestroyed)
 			{
@@ -119,22 +119,32 @@ package BalloonGame.Ingame
 			MovieClip(this.DrawObject).play();
 		}
 		
-		//public function CreateBullet(callback:Function) : Bullet
-		//{
-			//var start:b2Vec2 = Body.GetWorldPoint(new b2Vec2(0, 0));
-			//var end:b2Vec2 = start.Copy();
-			//end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
-			//return new Bullet(start, end, 400, callback);
-		//}
-		
-		public function UpdateAim(target:b2Vec2) : void
+		public function UpdateAim(dir:b2Vec2, inWorldSpace:Boolean = false) : void
 		{
-			// Turret to Target
-			var diff:b2Vec2 = target;
-			diff.Subtract(this.Body.GetPosition());
+			if (inWorldSpace)
+			{
+				dir.Subtract(this.Body.GetPosition());
+				dir.y *= -1;
+			}
 			
-			var angle:Number = Math.atan2(diff.x, -diff.y);
+			var angle:Number = this.Body.GetAngle();
+			
+			var currentAngle:b2Vec2 = new b2Vec2(Math.sin(angle), Math.cos(angle));
+			var perpDir:b2Vec2 = new b2Vec2(-dir.y, dir.x);
+			
+			var dot:Number = currentAngle.x * perpDir.x + currentAngle.y * perpDir.y;
+			
+			if (dot > 0)
+			{
+				angle += 0.2;
+			}
+			else 
+			{
+				angle -= 0.2;
+			}
+			
 			this.Body.SetAngle(angle);
+			
 		}
 		
 		override public function OnDispose() : void
@@ -147,18 +157,6 @@ package BalloonGame.Ingame
 		override public function Draw(overlaySprite:Sprite):void 
 		{
 			super.Draw(overlaySprite);
-			
-			// Draws the "string" on joint
-			//if (DistanceJoint != null && !IsDisposing && !jointDestroyed)
-			//{
-				//var anchorA:b2Vec2 = DistanceJoint.GetAnchorA();
-				//var anchorB:b2Vec2 = DistanceJoint.GetAnchorB();
-					//
-				// Creates line repersenting joint
-				//overlaySprite.graphics.lineStyle(2, 0x000000, 0.6);
-				//overlaySprite.graphics.moveTo(anchorA.x * PhysicsManager.Scale, anchorA.y * PhysicsManager.Scale); 
-				//overlaySprite.graphics.lineTo(anchorB.x * PhysicsManager.Scale, anchorB.y * PhysicsManager.Scale); 
-			//}
 		}
 	}
 }

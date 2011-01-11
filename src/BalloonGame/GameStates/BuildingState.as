@@ -73,16 +73,16 @@ package BalloonGame.GameStates
 			menuButton = new BasicButton(screenOverlay, "menuButton", MenuButtonClick);
 			
 			buildPrices = new Vector.<Number>();
-			buildPrices.push(1000);
+			buildPrices.push(500);
 			buildPrices.push(5000);
-			buildPrices.push(10000);
+			buildPrices.push(2000);
 			buildPrices.push(6000);
 			
 			moneyText = TextField(screenOverlay["moneyBox"]["moneyText"]);
             
             // Enabled / Disabled
 			gameManager.camera.OffsetEnabled = true;
-            gameManager.IsIngame = true;
+            gameManager.IsIngame = false;
             
             // Start position
             startPosition = gameManager.player.Body.GetPosition().Copy();
@@ -158,7 +158,7 @@ package BalloonGame.GameStates
 						break;
                         
 					case 1:
-						var bObject2:GunRaycast = new GunRaycast(mouse, attachBody, attachPosition);
+						var bObject2:DefaultGun = new DefaultGun(mouse, attachBody, attachPosition);
 						gameManager.AddSprite(bObject2.DrawObject);
 						gameManager.AddGameObject(bObject2);
 						break;

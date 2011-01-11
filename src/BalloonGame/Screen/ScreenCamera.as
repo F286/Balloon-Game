@@ -28,6 +28,9 @@ package BalloonGame.Screen
 		
 		public var OffsetEnabled:Boolean = false;
 		
+		private var previousZoom:Number = 1;
+		public var Zoom:Number = 1.0;
+		
 		public function ScreenCamera(screenSize:b2Vec2) 
 		{
 			this.screenSize = screenSize;
@@ -63,17 +66,33 @@ package BalloonGame.Screen
 			offset.Multiply(0.2);
 		}
 		
+		//private var first:Boolean = true;
 		public function UpdateDraw(overlaySprite:Sprite) : void
 		{
+			//if (first)
+			//{
+				//first = false;
+				//
+				overlaySprite.width /= previousZoom;
+				overlaySprite.height /= previousZoom;
+				
+				overlaySprite.width *= Zoom;
+				overlaySprite.height *= Zoom;
+				
+				previousZoom = Zoom;
+			//}
+			
 			var drawPosition:b2Vec2 = position.Copy();
 			if (OffsetEnabled)
 			{
-				drawPosition.Add(offset);
+				var zoomedOffset:b2Vec2 = offset.Copy();
+				zoomedOffset.Multiply(1 / Zoom);
+				drawPosition.Add(zoomedOffset);
 			}
 			
 			// Update screen
-			overlaySprite.x = drawPosition.x * PhysicsManager.Scale * -1 + screenSize.x / 2;
-			overlaySprite.y = drawPosition.y * PhysicsManager.Scale * -1 + screenSize.y / 2;
+			overlaySprite.x = drawPosition.x * PhysicsManager.Scale * -1 * Zoom + screenSize.x / 2;
+			overlaySprite.y = drawPosition.y * PhysicsManager.Scale * -1 * Zoom + screenSize.y / 2;
 		}
 		
 		public function UpdateTarget(setTo:b2Vec2) : void

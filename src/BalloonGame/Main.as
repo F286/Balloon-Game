@@ -141,6 +141,7 @@
 			
 			// State Manager
 			stateManager = new StateManager(gameManager, state);
+			
 		}
 		
 		private function Tick(event:TimerEvent):void 

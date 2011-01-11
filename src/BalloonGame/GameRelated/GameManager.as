@@ -27,6 +27,7 @@ package BalloonGame.GameRelated
 		public var ExitObjects:Vector.<Exit>;
 		public var Bullets:Vector.<Bullet>;
 		public var Lasers:Vector.<Laser>;
+		public var ComplexGameObjects:Vector.<ComplexGameObject>;
 		
 		public var player:Player;
 		
@@ -63,6 +64,7 @@ package BalloonGame.GameRelated
 			ExitObjects = new Vector.<Exit>();
 			Bullets = new Vector.<Bullet>();
 			Lasers = new Vector.<Laser>();
+			ComplexGameObjects = new Vector.<ComplexGameObject>();
 			
 			// Camera
 			camera = new ScreenCamera(new b2Vec2(main.stage.stageWidth, main.stage.stageHeight));
@@ -132,10 +134,9 @@ package BalloonGame.GameRelated
 		
 		public function Update(timeStep:Number) : void
 		{
-			UpdateCleanArrays(timeStep);
+			UpdateArrays(timeStep);
 			
 			// Update Camera
-			
 			var mouseOffset:b2Vec2 = Input.GetScreenMousePosition();
 			mouseOffset.Subtract(new b2Vec2(camera.screenSize.x / 2, camera.screenSize.y / 2));
 			mouseOffset.Multiply(0.12 * (1 / PhysicsManager.Scale));
@@ -169,38 +170,84 @@ package BalloonGame.GameRelated
 			arrowManager.Update(timeStep);
             
             // Gameplay
-            if (IsIngame)
-            {
+            //if (IsIngame)
+            //{
                 this.gameplay.Update(timeStep);
-            }
+            //}
+			
+			CleanArrays();
 		}
 		
-		private function UpdateCleanArrays(timeStep:Number) : void
+		private function UpdateArrays(timeStep:Number) : void
 		{
 			// Updates GameObjects
 			for (var i:int = 0; i < GameObjects.length; i++) 
 			{
 				GameObjects[i].Update(timeStep);
-				
+			}
+			
+			// Updates ComplexGameObjects
+			for (var c:int = 0; c < ComplexGameObjects.length; c++) 
+			{
+				ComplexGameObjects[c].Update(timeStep);
+			}
+			
+			// Updates Obstacle
+			for (var j:int = 0; j < ObstacleObjects.length; j++) 
+			{
+				ObstacleObjects[j].Update(timeStep);
+			}
+			
+			// Updates Exit
+			for (var k:int = 0; k < ExitObjects.length; k++) 
+			{
+				ExitObjects[k].Update(timeStep);
+			}
+			
+			// Updates Lasers
+			for (var l:int = 0; l < Lasers.length; l++) 
+			{
+				Lasers[l].Update(timeStep);
+			}
+			
+			// Updates Bullets
+			for (var b:int = 0; b < Bullets.length; b++) 
+			{
+ 				Bullets[b].Update(timeStep);
+			}
+		}
+		
+		private function CleanArrays() : void
+		{
+			// Updates GameObjects
+			for (var i:int = 0; i < GameObjects.length; i++) 
+			{
 				// Handles disposing
 				if (GameObjects[i].IsDisposing == true)
 				{
-					if (GameObjects[i] is Balloon)
-					{
-						this.Particles.AddElectricSparks(GameObjects[i].Body.GetPosition(), 5, 4);
-					}
-					
 					GameObjects[i].OnDispose();
 					RemoveSprite(GameObjects[i].DrawObject);
 					GameObjects.splice(i, 1);
 					i--;
 				}
 			}
+			
+			// Updates ComplexGameObjects
+			for (var c:int = 0; c < ComplexGameObjects.length; c++) 
+			{
+				// Handles disposing
+				if (ComplexGameObjects[c].IsDisposing == true)
+				{
+					ComplexGameObjects[c].OnDispose();
+					RemoveSprite(ComplexGameObjects[c].DrawObject);
+					ComplexGameObjects.splice(c, 1);
+					c--;
+				}
+			}
+			
 			// Updates Obstacle
 			for (var j:int = 0; j < ObstacleObjects.length; j++) 
 			{
-				ObstacleObjects[j].Update(timeStep);
-				
 				// Handles disposing
 				if (ObstacleObjects[j].IsDisposing == true)
 				{
@@ -210,11 +257,10 @@ package BalloonGame.GameRelated
 					j--;
 				}
 			}
+			
 			// Updates Exit
 			for (var k:int = 0; k < ExitObjects.length; k++) 
 			{
-				ExitObjects[k].Update(timeStep);
-				
 				// Handles disposing
 				if (ExitObjects[k].IsDisposing == true)
 				{
@@ -224,11 +270,10 @@ package BalloonGame.GameRelated
 					k--;
 				}
 			}
+			
 			// Updates Lasers
 			for (var l:int = 0; l < Lasers.length; l++) 
 			{
-				Lasers[l].Update(timeStep);
-				
 				// Handles disposing
 				if (Lasers[l].IsDisposing == true)
 				{
@@ -242,8 +287,6 @@ package BalloonGame.GameRelated
 			// Updates Bullets
 			for (var b:int = 0; b < Bullets.length; b++) 
 			{
- 				Bullets[b].Update(timeStep);
-				
 				// Disposes Bullets if needed
 				if (Bullets[b].IsDisposing == true)
 				{
@@ -291,6 +334,11 @@ package BalloonGame.GameRelated
 			for (var i:int = 0; i < GameObjects.length; i++) 
 			{
 				GameObjects[i].Draw(overlaySprite);
+			}
+			// Draws ComplexGameObjects
+			for (var c:int = 0; c < ComplexGameObjects.length; c++) 
+			{
+				ComplexGameObjects[c].Draw(overlaySprite);
 			}
 			// Draws Obstacles
 			for (var j:int = 0; j < ObstacleObjects.length; j++) 
@@ -357,6 +405,10 @@ package BalloonGame.GameRelated
 			else if (obj is Laser)
 			{
 				Lasers.push(obj);
+			}
+			else if (obj is ComplexGameObject)
+			{
+				ComplexGameObjects.push(obj);
 			}
 			else 
 			{
