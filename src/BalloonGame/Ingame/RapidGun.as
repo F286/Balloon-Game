@@ -37,7 +37,7 @@ package BalloonGame.Ingame
 			bSprite.stop();
 			bSprite.addEventListener(Event.EXIT_FRAME, ExitFrame);
 			
-			super(bSprite, GameObject.BOX, 5);
+			super(bSprite, GameObject.BOX, 5, -1);
 			
 			// Set damping
 			this.Body.SetLinearDamping(0.6);
@@ -71,11 +71,13 @@ package BalloonGame.Ingame
 			this.Body.SetAngularVelocity(aV * 0.95);
             
             this.Body.SetPosition(attachB.GetWorldPoint(attachP));
+			this.Body.SetLinearVelocity(new b2Vec2(0, 0));
+			this.Body.SetAngularVelocity(0);
 		}
 		
 		public function CanFire() : Boolean
 		{
-   			if (cooldown > 0.02)
+   			if (cooldown > 0.2)
 			{
 				return true;
 			}
@@ -95,7 +97,7 @@ package BalloonGame.Ingame
 			var start:b2Vec2 = Body.GetWorldPoint(new b2Vec2(0, 0));
 			var end:b2Vec2 = start.Copy();
 			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
-			return new Bullet(start, end, 50, 5, callback);
+			return new Bullet(start, end, 0, 5, callback);
 			
 			// Sound
 			//Main.Audio.PlaySound("bigLaserShot");

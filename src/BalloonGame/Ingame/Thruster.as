@@ -94,6 +94,8 @@ package BalloonGame.Ingame
 			this.Body.SetAngularVelocity(aV * 0.95);
             
             this.Body.SetPosition(attachB.GetWorldPoint(attachP));
+			this.Body.SetLinearVelocity(new b2Vec2(0, 0));
+			this.Body.SetAngularVelocity(0);
 		}
 		
 		public function CanFire() : Boolean

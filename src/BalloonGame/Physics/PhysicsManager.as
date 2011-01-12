@@ -30,6 +30,8 @@ package BalloonGame.Physics
 		
 		public static var ContactM:ContactManager;
 		
+		private static var explosionControllers:Vector.<ExplosionController>;
+		
 		public function PhysicsManager(screen:Sprite) 
 		{
 			this.screen = screen;
@@ -52,6 +54,9 @@ package BalloonGame.Physics
 			
 			ContactM = new ContactManager();
 			World.SetContactListener(new ContactListener(ContactM));
+			
+			// Explosions
+			explosionControllers = new Vector.<ExplosionController>();
 		}
 		
 		public function CreateMouseJoint(evt:MouseEvent):void
@@ -96,6 +101,18 @@ package BalloonGame.Physics
 		
 		public function Update(timeStep:Number) : void
 		{
+			// Explosions
+			for (var i:int = 0; i < explosionControllers.length; i++) 
+			{
+				explosionControllers[i].Update(World, timeStep);
+				
+				if (explosionControllers[i].CanDispose() == true)
+				{
+					explosionControllers.splice(i, 1);
+					i--;
+				}
+			}
+			
 			World.Step(timeStep, 10, 10);
 			
 			var mouse:b2Vec2 = Input.GetMousePosition();
@@ -111,5 +128,9 @@ package BalloonGame.Physics
 			}
 		}
 		
+		public static function AddExplosionController(explosion:ExplosionController) : void
+		{
+			explosionControllers.push(explosion);
+		}
 	}
 }

@@ -23,7 +23,7 @@ package BalloonGame.Ingame
 	 * ...
 	 * @author Free
 	 */
-	public class Balloon extends GameObject
+	public class Balloon extends ComplexGameObject
 	{
 		[Embed(source='../Library/mainFlash.swf', symbol='balloon')]
 		private var BalloonSprite:Class;
@@ -39,7 +39,7 @@ package BalloonGame.Ingame
 			bSprite.stop();
 			bSprite.addEventListener(Event.EXIT_FRAME, ExitFrame);
 			
-			super(bSprite, GameObject.BOX, 1);
+			super(10, bSprite, GameObject.BOX, 1);
 			
 			// Sets damping on balloon
 			//this.Body.SetLinearDamping(0.05);
@@ -65,7 +65,9 @@ package BalloonGame.Ingame
 			this.DistanceJoint.noMinDistance = true;
 			
 			// Adds contact event
-			this.AddContactEvent(OnContact);
+			//this.AddContactEvent(OnContact);
+			
+			this.OnDeath = Pop;
 		}
 		
 		private function ExitFrame(event:Event) : void
@@ -91,6 +93,7 @@ package BalloonGame.Ingame
 			
 			// Lifting
 			this.Body.ApplyImpulse(new b2Vec2(0, -0.054 / timeStep), this.Body.GetPosition());
+			
 		}
 		
 		override public function OnDispose() : void
@@ -126,13 +129,13 @@ package BalloonGame.Ingame
 			Main.Audio.PlaySound("distortedSineHit");
 		}
 		
-		private function OnContact(a:GameObject, b:GameObject, contactInfo:ContactInfo) : void
-		{
-			if (b is Obstacle)
-			{
-				Pop();
-			}
-		}
+		//private function OnContact(a:GameObject, b:GameObject, contactInfo:ContactInfo) : void
+		//{
+			//if (b is Obstacle)
+			//{
+				//Pop();
+			//}
+		//}
 	}
 
 }

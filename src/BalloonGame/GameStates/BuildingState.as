@@ -73,10 +73,10 @@ package BalloonGame.GameStates
 			menuButton = new BasicButton(screenOverlay, "menuButton", MenuButtonClick);
 			
 			buildPrices = new Vector.<Number>();
+			buildPrices.push(50);
 			buildPrices.push(500);
-			buildPrices.push(5000);
-			buildPrices.push(2000);
-			buildPrices.push(6000);
+			buildPrices.push(200);
+			buildPrices.push(600);
 			
 			moneyText = TextField(screenOverlay["moneyBox"]["moneyText"]);
             

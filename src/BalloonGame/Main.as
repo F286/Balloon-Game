@@ -63,7 +63,7 @@
 			// ENTRY POINT!
 			
 			stage.frameRate = 60;
-            stage.quality = "high";
+            stage.quality = "medium";
 			
 			// Timer
 			mainTimer = new Timer(1000 / 60);

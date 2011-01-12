@@ -18,6 +18,7 @@ package BalloonGame.GameRelated
 		public var Health:Number;
 		public var DamageTaken:Number;
 		public var IsAlive:Boolean = true;
+		public var OnDeath:Function;
 		
 		public function ComplexGameObject(health:Number, drawObject:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10, groupIndex:Number = 0) 
 		{
@@ -35,6 +36,11 @@ package BalloonGame.GameRelated
 			if (DamageTaken >= Health)
 			{
 				this.IsAlive = false;
+				
+				if (OnDeath != null)
+				{
+					OnDeath();
+				}
 			}
 		}
 	}

@@ -71,6 +71,8 @@ package BalloonGame.Ingame
 			this.Body.SetAngularVelocity(aV * 0.95);
             
             this.Body.SetPosition(attachB.GetWorldPoint(attachP));
+			this.Body.SetLinearVelocity(new b2Vec2(0, 0));
+			this.Body.SetAngularVelocity(0);
 		}
 		
 		public function CanFire() : Boolean
@@ -95,7 +97,7 @@ package BalloonGame.Ingame
 			var start:b2Vec2 = Body.GetWorldPoint(new b2Vec2(0, 0));
 			var end:b2Vec2 = start.Copy();
 			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
-			return new Bullet(start, end, 500, 50, callback);
+			return new Bullet(start, end, 150, 50, callback);
 			
 			// Sound
 			Main.Audio.PlaySound("bigLaserShot");

@@ -44,6 +44,8 @@ package BalloonGame.Ingame
 		
 		public static var LaserSoundDelay:Number = 0;
 		
+		public var Damage:Number = 10;
+		
 		public function Laser(drawObject:Sprite, onTime:Number = 1.2, offTime:Number = 2.0) 
 		{
 			super(drawObject, GameObject.BOX, 0);
@@ -93,11 +95,10 @@ package BalloonGame.Ingame
 			
 			if (Enabled)
 			{
-				// Pops balloons
-				if (body.GetUserData() is Balloon)
+				// Does damage
+				if (body.GetUserData() is ComplexGameObject)
 				{
-					var balloon:Balloon = Balloon(body.GetUserData());
-					balloon.Pop();
+					ComplexGameObject(body.GetUserData()).DamageTaken += Damage;
 				}
 			}
 		}
