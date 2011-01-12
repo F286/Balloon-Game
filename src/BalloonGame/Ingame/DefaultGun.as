@@ -17,60 +17,21 @@ package BalloonGame.Ingame
 	 * ...
 	 * @author Free
 	 */
-	public class DefaultGun extends GameObject
+	public class DefaultGun extends AttachObject
 	{
-		[Embed(source='../Library/mainFlash.swf', symbol='playerGun')]
+		[Embed(source='../Library/mainFlash.swf', symbol='rapidGun')]
 		private var GunSprite:Class;
-		private var stopOnOne:Boolean = false;
-		
-        private var attachP:b2Vec2;
-        private var attachB:b2Body;
-		
-		private var cooldown:Number = 100;
 		
 		public function DefaultGun(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2)
 		{
-			// Creates the sprite
-			var bSprite:MovieClip = new GunSprite();
-			bSprite.x = position.x * PhysicsManager.Scale;
-			bSprite.y = position.y * PhysicsManager.Scale;
+			super(position, attachBody, attachPosition, new GunSprite(), GameObject.BOX, 5);
 			
-			super(bSprite, GameObject.BOX, 5, -1);
-			
-			// Sets damping
-			this.Body.SetLinearDamping(0.6);
-			this.Body.SetAngularDamping(1.0);
-            
-            this.attachP = attachPosition;
-            this.attachB = attachBody;
+			this.coolDown = 1.1;
 		}
 		
-		override public function Update(timeStep:Number):void 
+		public override function Fire(callback:Function) : Bullet
 		{
-			super.Update(timeStep);
-			
-			cooldown += timeStep;
-			
-			var aV:Number = this.Body.GetAngularVelocity();
-			this.Body.SetAngularVelocity(aV * 0.95);
-            
-            this.Body.SetPosition(attachB.GetWorldPoint(attachP));
-			this.Body.SetLinearVelocity(new b2Vec2(0, 0));
-			this.Body.SetAngularVelocity(0);
-		}
-		
-		public function CanFire() : Boolean
-		{
-   			if (cooldown > 1.1)
-			{
-				return true;
-			}
-			return false;
-		}
-		
-		public function Fire(callback:Function) : Bullet
-		{
-			cooldown = 0;
+			super.Fire(callback);
 				
 			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, 230))
 			attachB.ApplyImpulse(direction, this.Body.GetPosition());
@@ -85,16 +46,6 @@ package BalloonGame.Ingame
 			
 			// Sound
 			Main.Audio.PlaySound("bigLaserShot");
-		}
-		
-		public function UpdateAim(target:b2Vec2) : void
-		{
-			// Turret to Target
-			var diff:b2Vec2 = target;
-			diff.Subtract(this.Body.GetPosition());
-			
-			var angle:Number = Math.atan2(diff.x, -diff.y);
-			this.Body.SetAngle(angle);
 		}
 	}
 }

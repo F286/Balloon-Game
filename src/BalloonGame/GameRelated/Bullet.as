@@ -33,7 +33,7 @@ package BalloonGame.GameRelated
 		private var p1:b2Vec2;
 		private var p2:b2Vec2;
 		
-		private var damage:Number;
+		public var damage:Number;
 		
 		public function Bullet(startPoint:b2Vec2, endPoint:b2Vec2, impulse:Number, damage:Number, callback:Function = null) 
 		{
@@ -77,7 +77,7 @@ package BalloonGame.GameRelated
 			direction.Multiply(impulse);
 			body.ApplyImpulse(direction, contactPoint);
 			
-			callback(body, contactPoint, direction);
+			callback(this, body, contactPoint, direction);
 			
 			p2 = contactPoint;
 			

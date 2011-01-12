@@ -126,6 +126,15 @@ package BalloonGame.Physics
 			{
 				World.DrawDebugData();
 			}
+			
+			if (Input.IsKeyDown("k".charCodeAt()))
+			{
+				IsDebugDraw = true;
+			}
+			if (Input.IsKeyDown("l".charCodeAt()))
+			{
+				IsDebugDraw = false;
+			}
 		}
 		
 		public static function AddExplosionController(explosion:ExplosionController) : void

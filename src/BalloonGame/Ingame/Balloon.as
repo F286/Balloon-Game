@@ -38,12 +38,6 @@ package BalloonGame.Ingame
 			sprite.y = position.y * PhysicsManager.Scale;
 			
 			super(10, sprite, GameObject.BOX, 1);
-			
-			// Sets damping on balloon
-			//this.Body.SetLinearDamping(0.05);
-			//this.Body.SetAngularDamping(0.95);
-			//this.Body.SetLinearDamping(0.05);
-			//this.Body.SetAngularDamping(0.15);
 				
 			// Finds joint length
 			var bodyPoint:b2Vec2 = attachBody.GetWorldPoint(attachPosition);
@@ -62,10 +56,22 @@ package BalloonGame.Ingame
 			this.DistanceJoint = PhysicsManager.World.CreateJoint(distanceJointDef) as b2DistanceJoint;
 			this.DistanceJoint.noMinDistance = true;
 			
-			// Adds contact event
-			//this.AddContactEvent(OnContact);
-			
-			this.OnDeath = Pop;
+			this.OnDeath = OnPop;
+		}
+		
+		public function OnPop() : void
+		{
+			this.drawObject.Play();
+			this.drawObject.OnLoop = OnLoop;
+			this.Body.SetActive(false);
+					
+			// Plays sound
+			Main.Audio.PlaySound("distortedSineHit");
+		}
+		
+		private function OnLoop() : void
+		{
+			IsDisposing = true;
 		}
 		
 		override public function Update(timeStep:Number):void 
@@ -81,13 +87,6 @@ package BalloonGame.Ingame
 			// Lifting
 			this.Body.ApplyImpulse(new b2Vec2(0, -0.054 / timeStep), this.Body.GetPosition());
 			
-		}
-		
-		override public function OnDispose() : void
-		{
-			super.OnDispose();
-			
-			PhysicsManager.World.DestroyJoint(DistanceJoint);
 		}
 		
 		override public function Draw(overlaySprite:Sprite):void 
@@ -107,19 +106,11 @@ package BalloonGame.Ingame
 			}
 		}
 		
-		public function Pop() : void
+		override public function OnDispose() : void
 		{
-			this.drawObject.Play();
-			this.drawObject.OnLoop = OnLoop;
-			this.Body.SetActive(false);
-					
-			// Plays sound
-			Main.Audio.PlaySound("distortedSineHit");
-		}
-		
-		private function OnLoop() : void
-		{
-			IsDisposing = true;
+			super.OnDispose();
+			
+			PhysicsManager.World.DestroyJoint(DistanceJoint);
 		}
 	}
 

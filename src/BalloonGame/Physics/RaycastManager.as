@@ -61,7 +61,7 @@ package BalloonGame.Physics
 		{
 			if (fixture.IsSensor())
 			{
-				return fraction;
+				return callbackFraction;
 			}
 			
 			if (fraction < callbackFraction)

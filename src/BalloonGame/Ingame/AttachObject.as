@@ -19,23 +19,21 @@ package BalloonGame.Ingame
 	 */
 	public class AttachObject extends GameObject
 	{
-		[Embed(source='../Library/mainFlash.swf', symbol='rapidGun')]
-		private var GunSprite:Class;
-		
         protected var attachP:b2Vec2;
         protected var attachB:b2Body;
 		
 		protected var deltaCooldown:Number = 100;
-		protected var coolDown = 1;
+		protected var coolDown:Number = 1;
 		
-		public function AttachObject(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2)
+		protected var instantAim:Boolean = true;
+		
+		public function AttachObject(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2, sprite:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10)
 		{
-			// Creates the sprite
-			var sprite:MovieClip = new GunSprite();
+			// Sets position of sprite
 			sprite.x = position.x * PhysicsManager.Scale;
 			sprite.y = position.y * PhysicsManager.Scale;
 			
-			super(sprite, GameObject.BOX, 5, -1);
+			super(sprite, shapeType, density, -1);
 			
 			// Set damping
 			this.Body.SetLinearDamping(0.6);
@@ -68,30 +66,52 @@ package BalloonGame.Ingame
 		public function Fire(callback:Function) : Bullet
 		{
 			deltaCooldown = 0;
-				
-			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, 0))
-			attachB.ApplyImpulse(direction, this.Body.GetPosition());
 			
-			this.drawObject.Play();
-			
-			// Creates the bullet
-			var start:b2Vec2 = Body.GetWorldPoint(new b2Vec2(0, 0));
-			var end:b2Vec2 = start.Copy();
-			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
-			return new Bullet(start, end, 0, 5, callback);
-			
-			// Sound
-			//Main.Audio.PlaySound("bigLaserShot");
+			return null;
 		}
 		
-		public function UpdateAim(target:b2Vec2) : void
+		public function UpdateAim(dir:b2Vec2, inWorldSpace:Boolean = false) : void
 		{
-			// Turret to Target
-			var diff:b2Vec2 = target;
-			diff.Subtract(this.Body.GetPosition());
+				
+			if (instantAim == true)
+			{
+				// Turret to Target
+				var diff:b2Vec2 = dir;
+				
+				if (inWorldSpace)
+				{
+					diff.Subtract(this.Body.GetPosition());
+				}
+				
+				var angle2:Number = Math.atan2(diff.x, -diff.y);
+				this.Body.SetAngle(angle2);
+			}
+			else 
+			{
+				if (inWorldSpace)
+				{
+					dir.Subtract(this.Body.GetPosition());
+					dir.y *= -1;
+				}
 			
-			var angle:Number = Math.atan2(diff.x, -diff.y);
-			this.Body.SetAngle(angle);
+				var angle:Number = this.Body.GetAngle();
+				
+				var currentAngle:b2Vec2 = new b2Vec2(Math.sin(angle), Math.cos(angle));
+				var perpDir:b2Vec2 = new b2Vec2(-dir.y, dir.x);
+				
+				var dot:Number = currentAngle.x * perpDir.x + currentAngle.y * perpDir.y;
+				
+				if (dot > 0)
+				{
+					angle += 0.2;
+				}
+				else 
+				{
+					angle -= 0.2;
+				}
+				
+				this.Body.SetAngle(angle);
+			}
 		}
 	}
 }

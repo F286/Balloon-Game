@@ -180,6 +180,12 @@ package BalloonGame.GameRelated
 		
 		private function UpdateArrays(timeStep:Number) : void
 		{
+			// Updates Bullets
+			for (var b:int = 0; b < Bullets.length; b++) 
+			{
+ 				Bullets[b].Update(timeStep);
+			}
+			
 			// Updates GameObjects
 			for (var i:int = 0; i < GameObjects.length; i++) 
 			{
@@ -209,85 +215,12 @@ package BalloonGame.GameRelated
 			{
 				Lasers[l].Update(timeStep);
 			}
-			
-			// Updates Bullets
-			for (var b:int = 0; b < Bullets.length; b++) 
-			{
- 				Bullets[b].Update(timeStep);
-			}
 		}
 		
 		private function CleanArrays() : void
 		{
-			// Updates GameObjects
-			for (var i:int = 0; i < GameObjects.length; i++) 
-			{
-				// Handles disposing
-				if (GameObjects[i].IsDisposing == true)
-				{
-					GameObjects[i].OnDispose();
-					RemoveSprite(GameObjects[i].drawObject.sprite);
-					GameObjects.splice(i, 1);
-					i--;
-				}
-			}
-			
-			// Updates ComplexGameObjects
-			for (var c:int = 0; c < ComplexGameObjects.length; c++) 
-			{
-				// Handles disposing
-				if (ComplexGameObjects[c].IsDisposing == true)
-				{
-					ComplexGameObjects[c].OnDispose();
-					RemoveSprite(ComplexGameObjects[c].drawObject.sprite);
-					ComplexGameObjects.splice(c, 1);
-					c--;
-				}
-			}
-			
-			// Updates Obstacle
-			for (var j:int = 0; j < ObstacleObjects.length; j++) 
-			{
-				// Handles disposing
-				if (ObstacleObjects[j].IsDisposing == true)
-				{
-					ObstacleObjects[j].OnDispose();
-					RemoveSprite(ObstacleObjects[j].drawObject.sprite);
-					ObstacleObjects.splice(j, 1);
-					j--;
-				}
-			}
-			
-			// Updates Exit
-			for (var k:int = 0; k < ExitObjects.length; k++) 
-			{
-				// Handles disposing
-				if (ExitObjects[k].IsDisposing == true)
-				{
-					ExitObjects[k].OnDispose();
-					RemoveSprite(ExitObjects[k].drawObject.sprite);
-					ExitObjects.splice(k, 1);
-					k--;
-				}
-			}
-			
-			// Updates Lasers
-			for (var l:int = 0; l < Lasers.length; l++) 
-			{
-				// Handles disposing
-				if (Lasers[l].IsDisposing == true)
-				{
-					Lasers[l].OnDispose();
-					RemoveSprite(Lasers[l].drawObject.sprite);
-					Lasers.splice(l, 1);
-					l--;
-				}
-			}
-			
-			// Updates Bullets
 			for (var b:int = 0; b < Bullets.length; b++) 
 			{
-				// Disposes Bullets if needed
 				if (Bullets[b].IsDisposing == true)
 				{
 					Bullets[b].OnDispose();
@@ -297,6 +230,61 @@ package BalloonGame.GameRelated
 					}
 					Bullets.splice(b, 1);
 					b--;
+				}
+			}
+			
+			for (var i:int = 0; i < GameObjects.length; i++) 
+			{
+				if (GameObjects[i].IsDisposing == true)
+				{
+					GameObjects[i].OnDispose();
+					RemoveSprite(GameObjects[i].drawObject.sprite);
+					GameObjects.splice(i, 1);
+					i--;
+				}
+			}
+			
+			for (var c:int = 0; c < ComplexGameObjects.length; c++) 
+			{
+				if (ComplexGameObjects[c].IsDisposing == true)
+				{
+					ComplexGameObjects[c].OnDispose();
+					RemoveSprite(ComplexGameObjects[c].drawObject.sprite);
+					ComplexGameObjects.splice(c, 1);
+					c--;
+				}
+			}
+			
+			for (var j:int = 0; j < ObstacleObjects.length; j++) 
+			{
+				if (ObstacleObjects[j].IsDisposing == true)
+				{
+					ObstacleObjects[j].OnDispose();
+					RemoveSprite(ObstacleObjects[j].drawObject.sprite);
+					ObstacleObjects.splice(j, 1);
+					j--;
+				}
+			}
+			
+			for (var k:int = 0; k < ExitObjects.length; k++) 
+			{
+				if (ExitObjects[k].IsDisposing == true)
+				{
+					ExitObjects[k].OnDispose();
+					RemoveSprite(ExitObjects[k].drawObject.sprite);
+					ExitObjects.splice(k, 1);
+					k--;
+				}
+			}
+			
+			for (var l:int = 0; l < Lasers.length; l++) 
+			{
+				if (Lasers[l].IsDisposing == true)
+				{
+					Lasers[l].OnDispose();
+					RemoveSprite(Lasers[l].drawObject.sprite);
+					Lasers.splice(l, 1);
+					l--;
 				}
 			}
 		}

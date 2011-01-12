@@ -78,7 +78,7 @@ package BalloonGame.GameRelated
 							// Particles!
 							gameManager.Particles.AddSparks(gun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
 						}
-						gun.UpdateAim(Input.GetMousePosition());
+						gun.UpdateAim(Input.GetMousePosition(), true);
 						
 						break;
 						
@@ -94,7 +94,7 @@ package BalloonGame.GameRelated
 							// Particles!
 							gameManager.Particles.AddSparks(rapidGun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
 						}
-						rapidGun.UpdateAim(Input.GetMousePosition());
+						rapidGun.UpdateAim(Input.GetMousePosition(), true);
 						break;
 						
 						
@@ -104,7 +104,7 @@ package BalloonGame.GameRelated
 						if (keyboardDirection.x != 0 || keyboardDirection.y != 0)
 						{
 							thruster.UpdateAim(keyboardDirection);
-							thruster.ApplyThrust();
+							thruster.Fire(null);
 				
 							// Particles!
 							if (Helper.GetRandom(0, 1) < 0.1)
@@ -140,15 +140,14 @@ package BalloonGame.GameRelated
 				
 			}
         }
-        
 		
-		private function OnBulletHit(body:b2Body, contactPoint:b2Vec2, direction:b2Vec2) : void
+		private function OnBulletHit(bullet:Bullet, body:b2Body, contactPoint:b2Vec2, direction:b2Vec2) : void
 		{
 			gameManager.Particles.AddElectricSparks(contactPoint, 5);
 			
-			if (body.GetUserData() is Balloon)
+			if (body.GetUserData() is ComplexGameObject)
 			{
-				Balloon(body.GetUserData()).Pop();
+				ComplexGameObject(body.GetUserData()).DamageTaken += bullet.damage;
 			}
 		}
         
