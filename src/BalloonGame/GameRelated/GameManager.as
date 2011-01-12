@@ -226,7 +226,7 @@ package BalloonGame.GameRelated
 				if (GameObjects[i].IsDisposing == true)
 				{
 					GameObjects[i].OnDispose();
-					RemoveSprite(GameObjects[i].DrawObject);
+					RemoveSprite(GameObjects[i].drawObject.sprite);
 					GameObjects.splice(i, 1);
 					i--;
 				}
@@ -239,7 +239,7 @@ package BalloonGame.GameRelated
 				if (ComplexGameObjects[c].IsDisposing == true)
 				{
 					ComplexGameObjects[c].OnDispose();
-					RemoveSprite(ComplexGameObjects[c].DrawObject);
+					RemoveSprite(ComplexGameObjects[c].drawObject.sprite);
 					ComplexGameObjects.splice(c, 1);
 					c--;
 				}
@@ -252,7 +252,7 @@ package BalloonGame.GameRelated
 				if (ObstacleObjects[j].IsDisposing == true)
 				{
 					ObstacleObjects[j].OnDispose();
-					RemoveSprite(ObstacleObjects[j].DrawObject);
+					RemoveSprite(ObstacleObjects[j].drawObject.sprite);
 					ObstacleObjects.splice(j, 1);
 					j--;
 				}
@@ -265,7 +265,7 @@ package BalloonGame.GameRelated
 				if (ExitObjects[k].IsDisposing == true)
 				{
 					ExitObjects[k].OnDispose();
-					RemoveSprite(ExitObjects[k].DrawObject);
+					RemoveSprite(ExitObjects[k].drawObject.sprite);
 					ExitObjects.splice(k, 1);
 					k--;
 				}
@@ -278,7 +278,7 @@ package BalloonGame.GameRelated
 				if (Lasers[l].IsDisposing == true)
 				{
 					Lasers[l].OnDispose();
-					RemoveSprite(Lasers[l].DrawObject);
+					RemoveSprite(Lasers[l].drawObject.sprite);
 					Lasers.splice(l, 1);
 					l--;
 				}
@@ -291,9 +291,9 @@ package BalloonGame.GameRelated
 				if (Bullets[b].IsDisposing == true)
 				{
 					Bullets[b].OnDispose();
-					if (Bullets[b].DrawObject != null)
+					if (Bullets[b].drawObject != null)
 					{
-						RemoveSprite(Bullets[b].DrawObject);
+						RemoveSprite(Bullets[b].drawObject);
 					}
 					Bullets.splice(b, 1);
 					b--;
@@ -419,9 +419,9 @@ package BalloonGame.GameRelated
 		public function AddBullet(bullet:Bullet) : void
 		{
 			Bullets.push(bullet);
-			if (bullet.DrawObject != null)
+			if (bullet.drawObject != null)
 			{
-				AddSprite(bullet.DrawObject);
+				AddSprite(bullet.drawObject);
 			}
 		}
 		

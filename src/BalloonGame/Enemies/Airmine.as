@@ -88,7 +88,7 @@ package BalloonGame.Enemies
 				//this.DrawObject.removeChildAt(this.DrawObject.getChildIndex[i]);
 			//}
 			//this.DrawObject.removeChild(currentSprite);
-			this.DrawObject.addChild(new AirMineExplodedSprite());
+			this.drawObject.sprite.addChild(new AirMineExplodedSprite());
 			
 			PhysicsManager.AddExplosionController(new ExplosionController(this.Body.GetPosition(), 0));
 		}

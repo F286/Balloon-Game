@@ -196,14 +196,14 @@ package BalloonGame.GameRelated
 						
 						// The mine
 						var mine:Airmine = new Airmine(minePosition, obj);
-						gameManager.AddSprite(mine.DrawObject);
+						gameManager.AddSprite(mine.drawObject.sprite);
 						gameManager.AddGameObject(mine);
 						
 						// The balloon
 						var bPosition:b2Vec2 = minePosition.Copy();
 						bPosition.y -= 2;
 						var balloon:Balloon = new Balloon(bPosition, mine.Body, new b2Vec2(0, -0.5));
-						gameManager.AddSprite(balloon.DrawObject);
+						gameManager.AddSprite(balloon.drawObject.sprite);
 						gameManager.AddGameObject(balloon);
 						
 						// Removes placeholder graphic

@@ -22,7 +22,7 @@ package BalloonGame.GameRelated
 		
 		private static var currentTagToSet:Number = 0;
 		
-		public var DrawObject:Sprite;
+		public var drawObject:DrawObject;
 		public var Body:b2Body;
 		
 		public const piToDegrees:Number = (1 / (Math.PI * 2)) * 360;
@@ -32,14 +32,14 @@ package BalloonGame.GameRelated
 		public var UniqueTag:String;
 		
 		// If Density == 0, then the object's static
-		public function GameObject(drawObject:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10, groupIndex:Number = 0) 
+		public function GameObject(sprite:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10, groupIndex:Number = 0) 
 		{
 			// Graphics
-			this.DrawObject = drawObject;
+			this.drawObject = new DrawObject(sprite);
 			
 			// Physics
 			var bodyDef:b2BodyDef = new b2BodyDef();
-			bodyDef.position.Set(drawObject.x / PhysicsManager.Scale, drawObject.y / PhysicsManager.Scale);
+			bodyDef.position.Set(sprite.x / PhysicsManager.Scale, sprite.y / PhysicsManager.Scale);
 			bodyDef.userData = this;
 			if (density == 0)
 			{
@@ -51,19 +51,19 @@ package BalloonGame.GameRelated
 			}
 			
 			// Temp sets rotation to zero, so boxes can be rotated in flash
-			var rotation:Number = drawObject.rotation;
-			drawObject.rotation = 0;
+			var rotation:Number = sprite.rotation;
+			drawObject.sprite.rotation = 0;
 			
 			var shape:b2Shape;
 			if (shapeType == GameObject.CIRCLE)
 			{
-				var radius:Number = Math.max(drawObject.width, drawObject.height) / PhysicsManager.Scale / 2;
+				var radius:Number = Math.max(sprite.width, sprite.height) / PhysicsManager.Scale / 2;
 				shape = new b2CircleShape(radius);
 			}
 			else
 			{
 				shape = new b2PolygonShape();
-				b2PolygonShape(shape).SetAsBox(drawObject.width / PhysicsManager.Scale / 2, drawObject.height / PhysicsManager.Scale / 2);
+				b2PolygonShape(shape).SetAsBox(sprite.width / PhysicsManager.Scale / 2, sprite.height / PhysicsManager.Scale / 2);
 			}
 			
 			
@@ -111,15 +111,16 @@ package BalloonGame.GameRelated
 			//}
 			PhysicsManager.ContactM.RemoveEvents(this);
 			PhysicsManager.World.DestroyBody(this.Body);
+			drawObject.Dispose();
 		}
 		
 		public function Draw(overlaySprite:Sprite) : void
 		{
 			var position:b2Vec2 = Body.GetPosition();
-			this.DrawObject.x = position.x * PhysicsManager.Scale;
-			this.DrawObject.y = position.y * PhysicsManager.Scale;
+			this.drawObject.sprite.x = position.x * PhysicsManager.Scale;
+			this.drawObject.sprite.y = position.y * PhysicsManager.Scale;
 			
-			this.DrawObject.rotation = Body.GetAngle() * piToDegrees;
+			this.drawObject.sprite.rotation = Body.GetAngle() * piToDegrees;
 		}
 		
 		// This callback returns two GameObjects

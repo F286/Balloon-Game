@@ -20,7 +20,7 @@ package BalloonGame.GameRelated
 	public class Bullet
 	{
 		public var IsDisposing:Boolean = false;
-		public var DrawObject:Sprite;
+		public var drawObject:Sprite;
 		private var firedBullet:Boolean = false;
 		
 		private var impulse:Number;

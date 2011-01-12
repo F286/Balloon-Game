@@ -33,13 +33,11 @@ package BalloonGame.Ingame
 		public function Balloon(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2)
 		{
 			// Creates the balloon sprite
-			var bSprite:MovieClip = new BalloonSprite();
-			bSprite.x = position.x * PhysicsManager.Scale;
-			bSprite.y = position.y * PhysicsManager.Scale;
-			bSprite.stop();
-			bSprite.addEventListener(Event.EXIT_FRAME, ExitFrame);
+			var sprite:MovieClip = new BalloonSprite();
+			sprite.x = position.x * PhysicsManager.Scale;
+			sprite.y = position.y * PhysicsManager.Scale;
 			
-			super(10, bSprite, GameObject.BOX, 1);
+			super(10, sprite, GameObject.BOX, 1);
 			
 			// Sets damping on balloon
 			//this.Body.SetLinearDamping(0.05);
@@ -68,17 +66,6 @@ package BalloonGame.Ingame
 			//this.AddContactEvent(OnContact);
 			
 			this.OnDeath = Pop;
-		}
-		
-		private function ExitFrame(event:Event) : void
-		{
-			// Delete the balloon when the animation finishes
-			var movieClip:MovieClip = MovieClip(this.DrawObject);
-			if (movieClip.currentFrame == movieClip.totalFrames)
-			{
-				movieClip.removeEventListener(Event.EXIT_FRAME, ExitFrame);
-				IsDisposing = true;
-			}
 		}
 		
 		override public function Update(timeStep:Number):void 
@@ -122,20 +109,18 @@ package BalloonGame.Ingame
 		
 		public function Pop() : void
 		{
-			MovieClip(this.DrawObject).play();
+			this.drawObject.Play();
+			this.drawObject.OnLoop = OnLoop;
 			this.Body.SetActive(false);
 					
 			// Plays sound
 			Main.Audio.PlaySound("distortedSineHit");
 		}
 		
-		//private function OnContact(a:GameObject, b:GameObject, contactInfo:ContactInfo) : void
-		//{
-			//if (b is Obstacle)
-			//{
-				//Pop();
-			//}
-		//}
+		private function OnLoop() : void
+		{
+			IsDisposing = true;
+		}
 	}
 
 }

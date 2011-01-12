@@ -37,8 +37,6 @@ package BalloonGame.Ingame
 			var bSprite:MovieClip = new ThrusterSprite();
 			bSprite.x = position.x * PhysicsManager.Scale;
 			bSprite.y = position.y * PhysicsManager.Scale;
-			bSprite.stop();
-			bSprite.addEventListener(Event.EXIT_FRAME, ExitFrame);
 			
 			super(bSprite, GameObject.BOX, 5);
 			
@@ -68,20 +66,6 @@ package BalloonGame.Ingame
             
             this.attachP = attachPosition;
             this.attachB = attachBody;
-		}
-		
-		private function ExitFrame(event:Event) : void
-		{
-			var movieClip:MovieClip = MovieClip(this.DrawObject);
-			if (movieClip.currentFrame == movieClip.totalFrames)
-			{
-				stopOnOne = true;
-			}
-			else if (movieClip.currentFrame == 1 && stopOnOne)
-			{
-				movieClip.stop();
-				stopOnOne = false;
-			}
 		}
 		
 		override public function Update(timeStep:Number):void 
@@ -117,8 +101,6 @@ package BalloonGame.Ingame
 			{
 				DistanceJoint.GetBodyB().ApplyImpulse(direction, this.Body.GetPosition());
 			}
-			
-			MovieClip(this.DrawObject).play();
 		}
 		
 		public function UpdateAim(dir:b2Vec2, inWorldSpace:Boolean = false) : void

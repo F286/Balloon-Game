@@ -153,25 +153,25 @@ package BalloonGame.GameStates
 				{
 					case 0:
 						var bObject:Balloon = new Balloon(mouse, attachBody, attachPosition);
-						gameManager.AddSprite(bObject.DrawObject);
+						gameManager.AddSprite(bObject.drawObject.sprite);
 						gameManager.AddGameObject(bObject);
 						break;
                         
 					case 1:
 						var bObject2:DefaultGun = new DefaultGun(mouse, attachBody, attachPosition);
-						gameManager.AddSprite(bObject2.DrawObject);
+						gameManager.AddSprite(bObject2.drawObject.sprite);
 						gameManager.AddGameObject(bObject2);
 						break;
                         
 					case 2:
 						var bObject3:Thruster = new Thruster(mouse, attachBody, attachPosition);
-						gameManager.AddSprite(bObject3.DrawObject);
+						gameManager.AddSprite(bObject3.drawObject.sprite);
 						gameManager.AddGameObject(bObject3);
 						break;
                         
 					case 3:
 						var bObject4:RapidGun = new RapidGun(mouse, attachBody, attachPosition);
-						gameManager.AddSprite(bObject4.DrawObject);
+						gameManager.AddSprite(bObject4.drawObject.sprite);
 						gameManager.AddGameObject(bObject4);
 						break;
                         

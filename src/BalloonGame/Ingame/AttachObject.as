@@ -17,18 +17,18 @@ package BalloonGame.Ingame
 	 * ...
 	 * @author Free
 	 */
-	public class RapidGun extends GameObject
+	public class AttachObject extends GameObject
 	{
 		[Embed(source='../Library/mainFlash.swf', symbol='rapidGun')]
 		private var GunSprite:Class;
-		private var stopOnOne:Boolean = false;
 		
-        private var attachP:b2Vec2;
-        private var attachB:b2Body;
+        protected var attachP:b2Vec2;
+        protected var attachB:b2Body;
 		
-		private var cooldown:Number = 100;
+		protected var deltaCooldown:Number = 100;
+		protected var coolDown = 1;
 		
-		public function RapidGun(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2)
+		public function AttachObject(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2)
 		{
 			// Creates the sprite
 			var sprite:MovieClip = new GunSprite();
@@ -49,10 +49,7 @@ package BalloonGame.Ingame
 		{
 			super.Update(timeStep);
 			
-			cooldown += timeStep;
-			
-			var aV:Number = this.Body.GetAngularVelocity();
-			this.Body.SetAngularVelocity(aV * 0.95);
+			deltaCooldown += timeStep;
             
             this.Body.SetPosition(attachB.GetWorldPoint(attachP));
 			this.Body.SetLinearVelocity(new b2Vec2(0, 0));
@@ -61,7 +58,7 @@ package BalloonGame.Ingame
 		
 		public function CanFire() : Boolean
 		{
-   			if (cooldown > 0.2)
+   			if (deltaCooldown > coolDown)
 			{
 				return true;
 			}
@@ -70,7 +67,7 @@ package BalloonGame.Ingame
 		
 		public function Fire(callback:Function) : Bullet
 		{
-			cooldown = 0;
+			deltaCooldown = 0;
 				
 			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, 0))
 			attachB.ApplyImpulse(direction, this.Body.GetPosition());
