@@ -32,6 +32,9 @@ package BalloonGame.Ingame
 		public override function Fire(callback:Function) : Bullet
 		{
 			super.Fire(callback);
+			
+			// Sound
+			//Main.Audio.PlaySound("bigLaserShot");
 				
 			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, 0))
 			attachB.ApplyImpulse(direction, this.Body.GetPosition());
@@ -43,9 +46,6 @@ package BalloonGame.Ingame
 			var end:b2Vec2 = start.Copy();
 			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
 			return new Bullet(start, end, 0, 5, callback);
-			
-			// Sound
-			//Main.Audio.PlaySound("bigLaserShot");
 		}
 	}
 }

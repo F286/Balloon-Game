@@ -19,7 +19,7 @@ package BalloonGame.Ingame
 	 */
 	public class DefaultGun extends AttachObject
 	{
-		[Embed(source='../Library/mainFlash.swf', symbol='rapidGun')]
+		[Embed(source='../Library/mainFlash.swf', symbol='playerGun')]
 		private var GunSprite:Class;
 		
 		public function DefaultGun(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2)
@@ -32,6 +32,9 @@ package BalloonGame.Ingame
 		public override function Fire(callback:Function) : Bullet
 		{
 			super.Fire(callback);
+			
+			// Sound
+			Main.Audio.PlaySound("bigLaserShot");
 				
 			var direction:b2Vec2 = Body.GetWorldVector(new b2Vec2(0, 230))
 			attachB.ApplyImpulse(direction, this.Body.GetPosition());
@@ -43,9 +46,6 @@ package BalloonGame.Ingame
 			var end:b2Vec2 = start.Copy();
 			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
 			return new Bullet(start, end, 150, 50, callback);
-			
-			// Sound
-			Main.Audio.PlaySound("bigLaserShot");
 		}
 	}
 }

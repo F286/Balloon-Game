@@ -50,6 +50,7 @@ package BalloonGame.Enemies
 			
 			this.AddContactEvent(OnContact);
 			
+			this.Health = Number.POSITIVE_INFINITY;
 			
 			//if (sprite == null)
 			//{
