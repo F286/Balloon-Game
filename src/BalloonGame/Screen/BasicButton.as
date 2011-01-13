@@ -18,14 +18,10 @@ package BalloonGame.Screen
 		{
 			button = parent[buttonName];
 			button.addEventListener(MouseEvent.CLICK, OnClick);
-			//button.addEventListener(MouseEvent.MOUSE_OVER, OnOver);
-			//button.addEventListener(MouseEvent.MOUSE_UP, OnExit);
-			//button.addEventListener(MouseEvent.MOUSE_OUT, OnExit);
 			button.addEventListener(MouseEvent.MOUSE_DOWN, OnDown);
 			button.addEventListener(MouseEvent.MOUSE_OVER, OnOver);
 			button.addEventListener(MouseEvent.MOUSE_OUT, OnUp);
 			button.addEventListener(MouseEvent.MOUSE_UP, OnUp);
-			button.addEventListener(Event.ENTER_FRAME, OnEnter);
 			button.addEventListener(Event.EXIT_FRAME, OnExit);
 			
 			this.callback = callback;
@@ -70,14 +66,12 @@ package BalloonGame.Screen
 		private function OnClick(evt:MouseEvent) : void
 		{
 			callback();
-			//StopMovieClips();
 		}
 		
 		
 		private function OnDown(evt:MouseEvent) : void
 		{
 			mouseDown = true;
-			//EditMovieClips("reset");
 		}
 		
 		private function OnUp(evt:MouseEvent) : void
@@ -89,14 +83,6 @@ package BalloonGame.Screen
 		private function OnOver(evt:MouseEvent) : void
 		{
 			EditMovieClips("stop");
-		}
-		
-		private function OnEnter(evt:Event) : void
-		{
-			if (!mouseDown)
-			{
-				//EditMovieClips("stop");
-			}
 		}
 		
 		private function OnExit(evt:Event) : void
@@ -112,7 +98,6 @@ package BalloonGame.Screen
 						EditMovieClips("reset");
 					}
 				}
-				//EditMovieClips("stop");
 			}
 		}
 		

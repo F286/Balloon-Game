@@ -18,7 +18,13 @@ package BalloonGame.Enemies
 	import Box2D.Collision.Shapes.*;
 	import Box2D.Common.Math.*;
 	
-	import BalloonGame.Physics.*;
+	import BalloonGame.Physics.*; 
+	
+	// Greensock
+	import com.greensock.*;
+	import com.greensock.plugins.*;
+	import com.greensock.easing.*;
+	TweenPlugin.activate([AutoAlphaPlugin]);
 	
 	/**
 	 * ...
@@ -31,6 +37,9 @@ package BalloonGame.Enemies
 		
 		[Embed(source = '../Library/mainFlash.swf', symbol = 'airmineExploded')]
 		private var AirMineExplodedSprite:Class;
+		
+		[Embed(source='../Library/mainFlash.swf', symbol='explode')]
+		private var ExplodeSprite:Class;
 		
 		private var isExploded:Boolean = false;
 		private var currentSprite:Sprite;
@@ -91,7 +100,11 @@ package BalloonGame.Enemies
 			//this.DrawObject.removeChild(currentSprite);
 			this.drawObject.sprite.addChild(new AirMineExplodedSprite());
 			
-			PhysicsManager.AddExplosionController(new ExplosionController(this.Body.GetPosition(), 0));
+			PhysicsManager.AddExplosionController(new ExplosionController(this.Body.GetPosition().Copy(), 0));
+			var decal:DrawObject = new DrawObject(new ExplodeSprite());
+			decal.SetPosition(this.Body.GetPosition());
+			GameManager.AddDecal(decal);
+			TweenMax.to(decal.sprite, 1, {autoAlpha:0});
 		}
 		
 		private function OnContact(a:GameObject, b:GameObject, contactInfo:ContactInfo) : void

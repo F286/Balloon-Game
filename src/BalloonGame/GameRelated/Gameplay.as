@@ -13,10 +13,6 @@ package BalloonGame.GameRelated
 	import BalloonGame.Ingame.*;
 	import BalloonGame.GameRelated.*;
     
-	/**
-     * ...
-     * @author Robin
-     */
     public class Gameplay
     {
 		private var gameManager:GameManager;

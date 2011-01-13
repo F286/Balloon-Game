@@ -188,7 +188,7 @@ package BalloonGame.GameStates
 					// Money
 					Main.scoreManager.Money -= buildPrices[buildMode];
 					
-					TweenMax.to(screenOverlay["moneyBox"], 0.5, { scaleX:1.1, scaleY:1.0, ease:Expo.easeOut, yoyo:true } );
+					TweenMax.to(screenOverlay["moneyBox"], 0.5, { scaleX:1.1, scaleY:1.0, ease:Expo.easeOut, repeat:1, yoyo:true } );
 					
 					var moneyTimeline:TimelineLite = new TimelineLite();
 					moneyTimeline.append(new TweenMax(moneyText, 0.4, {glowFilter:{color:0xff0000, alpha:1.3, blurX:15, blurY:15}}) );

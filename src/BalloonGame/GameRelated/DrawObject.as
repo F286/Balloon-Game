@@ -2,6 +2,8 @@ package BalloonGame.GameRelated
 {
 	import BalloonGame.*;
 	import BalloonGame.GameRelated.*;
+	import BalloonGame.Physics.PhysicsManager;
+	import Box2D.Common.Math.b2Vec2;
 	import Box2D.Dynamics.Joints.*;
 	import flash.display.*;
 	import flash.events.*;
@@ -19,13 +21,25 @@ package BalloonGame.GameRelated
 		
 		public var OnLoop:Function;
 		
+		private var isMovieClip:Boolean = false;
+		
 		public function DrawObject(sprite:Sprite) 
 		{
 			this.sprite = sprite;
 			
-			Stop();
+			if (sprite is MovieClip)
+			{
+				isMovieClip = true;
+				Stop();
+			}
 			
 			sprite.addEventListener(Event.EXIT_FRAME, ExitFrame);
+		}
+		
+		public function SetPosition(position:b2Vec2) : void
+		{
+			this.sprite.x = position.x * PhysicsManager.Scale;
+			this.sprite.y = position.y * PhysicsManager.Scale;
 		}
 		
 		public function Play() : void
@@ -38,22 +52,30 @@ package BalloonGame.GameRelated
 			MovieClip(this.sprite).stop();
 		}
 		
+		public function Reset() : void
+		{
+			MovieClip(this.sprite).gotoAndStop(0);
+		}
+		
 		private function ExitFrame(event:Event) : void
 		{
-			var movieClip:MovieClip = MovieClip(this.sprite);
-			if (movieClip.currentFrame == movieClip.totalFrames)
+			if (isMovieClip )
 			{
-				stopOnOne = true;
-				
-				if (OnLoop != null)
+				var movieClip:MovieClip = MovieClip(this.sprite);
+				if (movieClip.currentFrame == movieClip.totalFrames)
 				{
-					OnLoop();
+					stopOnOne = true;
+					
+					if (OnLoop != null)
+					{
+						OnLoop();
+					}
 				}
-			}
-			else if (movieClip.currentFrame == 1 && stopOnOne)
-			{
-				movieClip.stop();
-				stopOnOne = false;
+				else if (movieClip.currentFrame == 1 && stopOnOne)
+				{
+					movieClip.stop();
+					stopOnOne = false;
+				}
 			}
 		}
 		

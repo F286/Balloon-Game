@@ -29,6 +29,9 @@ package BalloonGame.GameRelated
 		public var Lasers:Vector.<Laser>;
 		public var ComplexGameObjects:Vector.<ComplexGameObject>;
 		
+		private var decals:Vector.<DrawObject>;
+		private static var decalsToAdd:Vector.<DrawObject>;
+		
 		public var player:Player;
 		
 		public var Particles:ParticleManager;
@@ -65,6 +68,9 @@ package BalloonGame.GameRelated
 			Bullets = new Vector.<Bullet>();
 			Lasers = new Vector.<Laser>();
 			ComplexGameObjects = new Vector.<ComplexGameObject>();
+			
+			decals = new Vector.<DrawObject>();
+			decalsToAdd = new Vector.<DrawObject>();
 			
 			// Camera
 			camera = new ScreenCamera(new b2Vec2(main.stage.stageWidth, main.stage.stageHeight));
@@ -215,6 +221,17 @@ package BalloonGame.GameRelated
 			{
 				Lasers[l].Update(timeStep);
 			}
+			
+			// Decals
+			for (var d:int = 0; d < decalsToAdd.length; d++) 
+			{
+				decals.push(decalsToAdd[d]);
+				AddSprite(decals[d].sprite);
+			}
+			if (decalsToAdd.length > 0)
+			{
+				decalsToAdd = new Vector.<DrawObject>();
+			}
 		}
 		
 		private function CleanArrays() : void
@@ -287,6 +304,18 @@ package BalloonGame.GameRelated
 					l--;
 				}
 			}
+			
+			// Removes decals if they are no longer visible
+			for (var d:int = 0; d < decals.length; d++) 
+			{
+				if (decals[d].sprite.visible == false)
+				{
+					RemoveSprite(decals[d].sprite);
+					decals.splice(d, 1);
+					d--;
+				}
+			}
+			
 		}
 		
 		public function Draw(screen:Sprite, overlaySprite:Sprite, staticOverlaySprite:Sprite):void
@@ -416,6 +445,11 @@ package BalloonGame.GameRelated
 		public function SetGameState(target:Number) : void
 		{
 			gameStateCallback(target);
+		}
+		
+		public static function AddDecal(decal:DrawObject) : void
+		{
+			decalsToAdd.push(decal);
 		}
 		
 	}
