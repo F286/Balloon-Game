@@ -18,6 +18,12 @@ package BalloonGame.GameStates
 	import BalloonGame.GameRelated.*;
     import BalloonGame.Physics.*;
 	
+	// Greensock
+	import com.greensock.*;
+	import com.greensock.easing.*;
+	import com.greensock.plugins.*;
+	TweenPlugin.activate([GlowFilterPlugin]);
+	
 	/**
 	 * ...
 	 * @author Free
@@ -41,8 +47,7 @@ package BalloonGame.GameStates
 		private var buildPrices:Vector.<Number>
 		
 		private var moneyText:TextField;
-		private var moneyGlowTime:Number;
-        
+		
         private var startPosition:b2Vec2;
         
         private var scoreBoxes:ScoreBoxes;
@@ -177,12 +182,17 @@ package BalloonGame.GameStates
                         
 				}
 				Main.Audio.PlaySound("pop");
-				moneyGlowTime = 0;
 				
 				if (Main.IsGameMode)
 				{
 					// Money
 					Main.scoreManager.Money -= buildPrices[buildMode];
+					
+					TweenMax.to(screenOverlay["moneyBox"], 0.5, { scaleX:1.1, scaleY:1.0, ease:Expo.easeOut, yoyo:true } );
+					
+					var moneyTimeline:TimelineLite = new TimelineLite();
+					moneyTimeline.append(new TweenMax(moneyText, 0.4, {glowFilter:{color:0xff0000, alpha:1.3, blurX:15, blurY:15}}) );
+					moneyTimeline.append(new TweenMax(moneyText, 1.0, {glowFilter:{color:0x00ff00, alpha:1, blurX:5, blurY:5}}) );
 				}
 				
 				// Particles!
@@ -196,8 +206,6 @@ package BalloonGame.GameStates
 		override public function Update(timeStep:Number):void 
 		{
 			super.Update(timeStep);
-			
-			moneyGlowTime += timeStep;
 			
 			// Particles on mouse down
 			if (isMouseDown == true)
@@ -219,17 +227,6 @@ package BalloonGame.GameStates
 			moneyText.setTextFormat(new TextFormat(null, null, null, true));
 			moneyText.antiAliasType = "ADVANCED";
 			
-			// Glow color for money
-			if (moneyGlowTime <= 1.1)
-			{
-				var clampTime:Number = Math.min(moneyGlowTime, 1);
-				
-				var color:uint = (0xFF * (1 - clampTime)) << 16; // red
-			    color = color | (0xFF * (clampTime)) << 8; //green
-				var glow:GlowFilter = new GlowFilter(color);
-				DisplayObject(moneyText).filters = [glow];
-			}
-            
             // Player out of "range" of start
             var startDiff:b2Vec2 = gameManager.player.Body.GetPosition().Copy();
             startDiff.Subtract(startPosition.Copy());

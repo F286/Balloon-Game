@@ -13,6 +13,9 @@ package BalloonGame.Ingame
 	
 	import BalloonGame.Physics.*;
 	
+	import com.greensock.*;
+	import com.greensock.easing.*;
+	
 	/**
 	 * ...
 	 * @author Free
@@ -34,6 +37,8 @@ package BalloonGame.Ingame
 			sprite.y = position.y * PhysicsManager.Scale;
 			
 			super(sprite, shapeType, density, -1);
+			
+			TweenMax.to(sprite, 1.2, { alpha:1, ease:Expo.easeOut, startAt:{alpha:0} } );
 			
 			// Set damping
 			this.Body.SetLinearDamping(0.6);
