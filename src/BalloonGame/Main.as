@@ -160,6 +160,11 @@
 				IsGameMode = false;
 			}
 			
+			// State
+			stateManager.Update(timeStep);
+			stateManager.Draw(overlaySprite);
+			
+			
             if (stateManager.currentStateNumber == StateManager.PLAYING || stateManager.currentStateNumber == StateManager.BUILDING)
             {
                 // Physics
@@ -180,11 +185,6 @@
 			
 			// Score
 			scoreManager.Update(timeStep);
-			
-			// State
-			stateManager.Update(timeStep);
-			stateManager.Draw(overlaySprite);
-			
 			// Resets input
 			input.Update(timeStep);
 			

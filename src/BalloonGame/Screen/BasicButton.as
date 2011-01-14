@@ -12,19 +12,24 @@ package BalloonGame.Screen
 		private var button:SimpleButton;
 		
 		private var callback:Function;
+		private var onMouseOverCallback:Function = null;
 		private var mouseDown:Boolean = false;
 		
-		public function BasicButton(parent:Sprite, buttonName:String, callback:Function, containsMovieclip:Boolean = false) 
+		private var stopAtOne:Boolean = false;
+		
+		public function BasicButton(parent:Sprite, buttonName:String, callback:Function, containsMovieclip:Boolean = false, onMouseOverCallback:Function = null) 
 		{
 			button = parent[buttonName];
 			button.addEventListener(MouseEvent.CLICK, OnClick);
 			button.addEventListener(MouseEvent.MOUSE_DOWN, OnDown);
 			button.addEventListener(MouseEvent.MOUSE_OVER, OnOver);
+			button.addEventListener(Event.EXIT_FRAME, OnExit);
 			button.addEventListener(MouseEvent.MOUSE_OUT, OnUp);
 			button.addEventListener(MouseEvent.MOUSE_UP, OnUp);
-			button.addEventListener(Event.EXIT_FRAME, OnExit);
+			button.addEventListener(MouseEvent.ROLL_OUT, OnUp);
 			
 			this.callback = callback;
+			this.onMouseOverCallback = onMouseOverCallback;
 			
 			if (containsMovieclip)
 			{
@@ -56,6 +61,11 @@ package BalloonGame.Screen
 			}
 		}
 		
+		public function Update(timeStep:Number):void 
+		{
+			
+		}
+		
 		private function EditMovieClips(edit:String) : void
 		{
 			EditMovieClip(button.upState, edit);
@@ -71,6 +81,7 @@ package BalloonGame.Screen
 		
 		private function OnDown(evt:MouseEvent) : void
 		{
+			evt.stopPropagation();
 			mouseDown = true;
 		}
 		
@@ -83,6 +94,11 @@ package BalloonGame.Screen
 		private function OnOver(evt:MouseEvent) : void
 		{
 			EditMovieClips("stop");
+			
+			if (onMouseOverCallback != null)
+			{
+				onMouseOverCallback();
+			}
 		}
 		
 		private function OnExit(evt:Event) : void
@@ -98,12 +114,24 @@ package BalloonGame.Screen
 						EditMovieClips("reset");
 					}
 				}
-			}
+			}				
+			//else if (movieClip.currentFrame == 1 && stopOnOne)
+			//{
+				//movieClip.stop();
+				//stopOnOne = false;
+			//}
+
 		}
 		
 		public function Dispose(parent:Sprite) : void
 		{
 			SimpleButton(parent[button.name]).removeEventListener(MouseEvent.MOUSE_UP, OnClick);
+			SimpleButton(parent[button.name]).removeEventListener(MouseEvent.MOUSE_DOWN, OnDown);
+			SimpleButton(parent[button.name]).removeEventListener(MouseEvent.MOUSE_OVER, OnOver);
+			SimpleButton(parent[button.name]).removeEventListener(Event.EXIT_FRAME, OnExit);
+			SimpleButton(parent[button.name]).removeEventListener(MouseEvent.MOUSE_OUT, OnUp);
+			SimpleButton(parent[button.name]).removeEventListener(MouseEvent.MOUSE_UP, OnUp);
+			SimpleButton(parent[button.name]).removeEventListener(MouseEvent.ROLL_OUT, OnUp);
 		}
 	}
 

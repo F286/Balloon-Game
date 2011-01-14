@@ -87,7 +87,7 @@ package BalloonGame.GameStates
             
             // Enabled / Disabled
 			gameManager.camera.OffsetEnabled = true;
-            gameManager.IsIngame = false;
+            gameManager.IsIngame = true;
             
             // Start position
             startPosition = gameManager.player.Body.GetPosition().Copy();
@@ -137,22 +137,28 @@ package BalloonGame.GameStates
 			
 			var mouse:b2Vec2 = BalloonGame.Input.GetMousePosition();
 			var body:b2Body = BalloonGame.Main.physics.GetBodyAtPoint(mouse);
-			
 			this.attachBody = body;
-			if (body != null)
+			
+			if (body != null && body == gameManager.player.Body)
 			{
 				this.attachPosition = body.GetLocalPoint(mouse);
+				this.gameManager.IsIngame = false;
+			}
+			else 
+			{
+				this.attachBody = null;
 			}
 		}
 		
 		public function MouseUp(evt:MouseEvent):void
 		{
 			isMouseDown = false;
+			this.gameManager.IsIngame = true;
 			
 			var mouse:b2Vec2 = Input.GetMousePosition();
 			
 			// Adds object on mouse click
-			if (attachBody != null && attachBody == gameManager.player.Body && Main.scoreManager.Money >= buildPrices[buildMode])
+			if (attachBody != null && Main.scoreManager.Money >= buildPrices[buildMode])
 			{
 				switch (buildMode) 
 				{
@@ -161,25 +167,25 @@ package BalloonGame.GameStates
 						gameManager.AddSprite(bObject.drawObject.sprite);
 						gameManager.AddGameObject(bObject);
 						break;
-                        
+						
 					case 1:
 						var bObject2:DefaultGun = new DefaultGun(mouse, attachBody, attachPosition);
 						gameManager.AddSprite(bObject2.drawObject.sprite);
 						gameManager.AddGameObject(bObject2);
 						break;
-                        
+						
 					case 2:
 						var bObject3:Thruster = new Thruster(mouse, attachBody, attachPosition);
 						gameManager.AddSprite(bObject3.drawObject.sprite);
 						gameManager.AddGameObject(bObject3);
 						break;
-                        
+						
 					case 3:
 						var bObject4:RapidGun = new RapidGun(mouse, attachBody, attachPosition);
 						gameManager.AddSprite(bObject4.drawObject.sprite);
 						gameManager.AddGameObject(bObject4);
 						break;
-                        
+						
 				}
 				Main.Audio.PlaySound("pop");
 				

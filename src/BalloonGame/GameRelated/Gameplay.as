@@ -59,6 +59,8 @@ package BalloonGame.GameRelated
 				keyboardDirection.x += 1;
 			}
 			
+			var canFire:Boolean = !gameManager.player.Body.GetFixtureList().TestPoint(Input.GetMousePosition(true));
+			
 			for (var i:int = 0; i < gameManager.GameObjects.length; i++) 
 			{
 				switch (getQualifiedClassName(gameManager.GameObjects[i])) 
@@ -66,7 +68,7 @@ package BalloonGame.GameRelated
 					case getQualifiedClassName(DefaultGun):
 						var gun:DefaultGun = DefaultGun(gameManager.GameObjects[i]);
 						
-						if (isMouseDown && gun.CanFire() && gameManager.IsIngame)
+						if (isMouseDown && gun.CanFire() && canFire && gameManager.IsIngame)
 						{
 							// Fires player's gun
 							gameManager.AddBullet(gun.Fire(OnBulletHit));
@@ -82,7 +84,7 @@ package BalloonGame.GameRelated
 					case getQualifiedClassName(RapidGun):
 						var rapidGun:RapidGun = RapidGun(gameManager.GameObjects[i]);
 						
-						if (isMouseDown && rapidGun.CanFire() && gameManager.IsIngame)
+						if (isMouseDown && rapidGun.CanFire() && canFire && gameManager.IsIngame)
 						{
 							// Fires player's gun
 							gameManager.AddBullet(rapidGun.Fire(OnBulletHit));
@@ -128,12 +130,10 @@ package BalloonGame.GameRelated
 							gameManager.Particles.AddElectricSparks(gameManager.GameObjects[i].Body.GetPosition(), 5, 4);
 						}
 						break;
-					
 						
 					default:
 						break;
 				}
-				
 			}
         }
 		
