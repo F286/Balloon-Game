@@ -4,6 +4,7 @@ package BalloonGame.Physics
 	import Box2D.Dynamics.Joints.b2MouseJoint;
 	import Box2D.Dynamics.Joints.b2MouseJointDef;
 	import flash.display.Sprite;
+	import flash.events.FullScreenEvent;
 	import flash.events.MouseEvent;
 	
 	import Box2D.Dynamics.*;
@@ -26,8 +27,9 @@ package BalloonGame.Physics
 		private var duration:Number;
 		
 		private var deltaDuration:Number;
+		private var callback:Function;
 		
-		public function ExplosionController(position:b2Vec2, damage:Number = 0, radius:Number = 3.5, impulse:Number = 1200, duration:Number = 0.0) 
+		public function ExplosionController(position:b2Vec2, damage:Number = 0, callback:Function = null, radius:Number = 3.5, impulse:Number = 1200, duration:Number = 0.0) 
 		{
 			this.position = position;
 			this.damage = damage;
@@ -36,6 +38,7 @@ package BalloonGame.Physics
 			this.duration = duration;
 			
 			this.deltaDuration = 0;
+			this.callback = callback;
 		}
 		
 		public function Update(world:b2World, timeStep:Number) : void
@@ -60,6 +63,10 @@ package BalloonGame.Physics
 					if (body.GetUserData() is ComplexGameObject)
 					{
 						ComplexGameObject(body.GetUserData()).DamageTaken += damage;
+					}
+					if (callback != null)
+					{
+						callback(body.GetUserData());
 					}
 				}
 				

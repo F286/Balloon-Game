@@ -25,6 +25,7 @@ package BalloonGame.Enemies
 	import com.greensock.plugins.*;
 	import com.greensock.easing.*;
 	TweenPlugin.activate([AutoAlphaPlugin]);
+	TweenPlugin.activate([EndArrayPlugin, ColorMatrixFilterPlugin]);
 	
 	/**
 	 * ...
@@ -100,11 +101,16 @@ package BalloonGame.Enemies
 			//this.DrawObject.removeChild(currentSprite);
 			this.drawObject.sprite.addChild(new AirMineExplodedSprite());
 			
-			PhysicsManager.AddExplosionController(new ExplosionController(this.Body.GetPosition().Copy(), 0));
+			PhysicsManager.AddExplosionController(new ExplosionController(this.Body.GetPosition().Copy(), 0, ExplodeCallback));
 			var decal:DrawObject = new DrawObject(new ExplodeSprite());
 			decal.SetPosition(this.Body.GetPosition());
 			GameManager.AddDecal(decal);
 			TweenMax.to(decal.sprite, 1, {autoAlpha:0});
+		}
+		
+		private function ExplodeCallback(obj:GameObject) : void
+		{
+			TweenMax.to(obj.drawObject.sprite, 0.9, {colorMatrixFilter:{brightness:1.5}, ease:Circ.easeOut, yoyo:true, repeat:1});
 		}
 		
 		private function OnContact(a:GameObject, b:GameObject, contactInfo:ContactInfo) : void

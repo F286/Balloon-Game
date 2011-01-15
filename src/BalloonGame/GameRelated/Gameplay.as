@@ -12,7 +12,14 @@ package BalloonGame.GameRelated
 	import BalloonGame.*;
 	import BalloonGame.Ingame.*;
 	import BalloonGame.GameRelated.*;
-    
+	
+	// Greensock
+	import com.greensock.plugins.*;
+	import com.greensock.*; 
+	import com.greensock.easing.*;
+	TweenPlugin.activate([GlowFilterPlugin]);
+	TweenPlugin.activate([EndArrayPlugin, ColorMatrixFilterPlugin]);
+
     public class Gameplay
     {
 		private var gameManager:GameManager;
@@ -71,7 +78,7 @@ package BalloonGame.GameRelated
 						if (isMouseDown && gun.CanFire() && canFire && gameManager.IsIngame)
 						{
 							// Fires player's gun
-							gameManager.AddBullet(gun.Fire(OnBulletHit));
+							gameManager.AddBullet(gun.Fire(OnDefaultBulletHit));
 							
 							// Particles!
 							gameManager.Particles.AddSparks(gun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
@@ -87,7 +94,7 @@ package BalloonGame.GameRelated
 						if (isMouseDown && rapidGun.CanFire() && canFire && gameManager.IsIngame)
 						{
 							// Fires player's gun
-							gameManager.AddBullet(rapidGun.Fire(OnBulletHit));
+							gameManager.AddBullet(rapidGun.Fire(OnRapidBulletHit));
 							
 							// Particles!
 							gameManager.Particles.AddSparks(rapidGun.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 5);
@@ -137,13 +144,31 @@ package BalloonGame.GameRelated
 			}
         }
 		
-		private function OnBulletHit(bullet:Bullet, body:b2Body, contactPoint:b2Vec2, direction:b2Vec2) : void
+		private function OnRapidBulletHit(bullet:Bullet, body:b2Body, contactPoint:b2Vec2, direction:b2Vec2) : void
+		{
+			gameManager.Particles.AddElectricSparks(contactPoint, 2);
+			
+			if (body.GetUserData() is ComplexGameObject)
+			{
+				ComplexGameObject(body.GetUserData()).DamageTaken += bullet.damage;
+			}
+			if (body.GetUserData() is GameObject)
+			{
+				TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.4, {glowFilter:{color:0xffcc00, alpha:1.0, blurX:30, blurY:30}, yoyo:true, repeat:1});
+			}
+		}
+		
+		private function OnDefaultBulletHit(bullet:Bullet, body:b2Body, contactPoint:b2Vec2, direction:b2Vec2) : void
 		{
 			gameManager.Particles.AddElectricSparks(contactPoint, 5);
 			
 			if (body.GetUserData() is ComplexGameObject)
 			{
 				ComplexGameObject(body.GetUserData()).DamageTaken += bullet.damage;
+			}
+			if (body.GetUserData() is GameObject)
+			{
+				TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.4, {colorMatrixFilter:{colorize:0x3399ff, amount:1}, yoyo:true, repeat:1});
 			}
 		}
         

@@ -38,9 +38,9 @@ package BalloonGame.GameStates
 		
 		private var buildMode:Number;
 		
-		private var buttonList:Vector.<BasicButton>;
+		private var buttonList:Vector.<GlowButton>;
 		private var nextButton:BasicButton;
-		private var menuButton:BasicButton;
+		private var menuButton:GlowButton;
 		
 		private var isMouseDown:Boolean = false;
 		
@@ -68,14 +68,13 @@ package BalloonGame.GameStates
 			
 			// Buttons
 			buildMode = 0;
-			buttonList = new Vector.<BasicButton>();
-			buttonList.push(new BasicButton(screenOverlay, "balloonButton", OnBalloonButton, true));
-			buttonList.push(new BasicButton(screenOverlay, "gunButton", OnGunButton, true));
-			buttonList.push(new BasicButton(screenOverlay, "thrusterButton", OnThrusterButton, true));
-			buttonList.push(new BasicButton(screenOverlay, "rapidGunButton", OnRapidFireButton, true));
+			buttonList = new Vector.<GlowButton>();
+			buttonList.push(new GlowButton(screenOverlay, "balloonButton", "balloonButtonGraphic", OnBalloonButton, 0xff0000));
+			buttonList.push(new GlowButton(screenOverlay, "gunButton", "gunButtonGraphic", OnGunButton, 0x66ccff));
+			buttonList.push(new GlowButton(screenOverlay, "thrusterButton", "thrusterButtonGraphic", OnThrusterButton, 0x00ff00));
+			buttonList.push(new GlowButton(screenOverlay, "rapidGunButton", "rapidGunGraphic", OnRapidFireButton, 0xffff00));
 			
-			//nextButton = new BasicButton(screenOverlay, "nextButton", NextButtonClick);
-			menuButton = new BasicButton(screenOverlay, "menuButton", MenuButtonClick);
+			menuButton = new GlowButton(screenOverlay, "menuButton", "menuButtonGraphic", MenuButtonClick, 0x66ccff);
 			
 			buildPrices = new Vector.<Number>();
 			buildPrices.push(50);
@@ -108,21 +107,43 @@ package BalloonGame.GameStates
 		private function OnBalloonButton() : void
 		{
 			buildMode = 0;
+			ChangeSelected();
 		}
 		
 		private function OnGunButton() : void
 		{
 			buildMode = 1;
+			ChangeSelected();
 		}
 		
 		private function OnThrusterButton() : void
 		{
 			buildMode = 2;
+			ChangeSelected();
 		}
         
 		private function OnRapidFireButton() : void
 		{
 			buildMode = 3;
+			ChangeSelected();
+		}
+		
+		private function ChangeSelected() : void
+		{
+			// Building mode highlight
+			for (var i:int = 0; i < buttonList.length; i++) 
+			{
+				var item:GlowButton = buttonList[i];
+				if (i == buildMode)
+				{
+					item.currentlySelected = true;
+				}
+				else
+				{
+					item.currentlySelected = false;
+				}
+				item.TryRemoveGlow();
+			}
 		}
 		
 		private function MenuButtonClick() : void
