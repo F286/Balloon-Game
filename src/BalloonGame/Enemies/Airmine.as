@@ -52,7 +52,6 @@ package BalloonGame.Enemies
 				sprite = new AirMineSprite();
 			}
 			
-			
 			sprite.x = position.x * PhysicsManager.Scale;
 			sprite.y = position.y * PhysicsManager.Scale;
 			
@@ -61,6 +60,10 @@ package BalloonGame.Enemies
 			this.AddContactEvent(OnContact);
 			
 			this.Health = Number.POSITIVE_INFINITY;
+			
+			
+			//TweenMax.to(sprite, 0, {dropShadowFilter:{color:0x000000, alpha:1, blurX:12, blurY:12, distance:3}});
+			
 			
 			//if (sprite == null)
 			//{

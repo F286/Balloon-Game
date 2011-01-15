@@ -44,12 +44,17 @@ package BalloonGame.Screen
 		
 		private function OnOver(evt:Event) : void
 		{
-			TweenMax.to(drawObject.sprite, 0.6, {glowFilter:{color:glowColor, alpha:1, blurX:14, blurY:14, strength:1.5}});
+			AddGlow();
 		}
 		
 		private function OnOut(evt:Event) : void
 		{
 			TryRemoveGlow();
+		}
+		
+		public function AddGlow() : void
+		{
+			TweenMax.to(drawObject.sprite, 0.6, {glowFilter:{color:glowColor, alpha:1, blurX:14, blurY:14, strength:1.5}});
 		}
 		
 		public function TryRemoveGlow() : void

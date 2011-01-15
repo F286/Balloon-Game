@@ -154,7 +154,7 @@ package BalloonGame.GameRelated
 			}
 			if (body.GetUserData() is GameObject)
 			{
-				TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.4, {glowFilter:{color:0xffcc00, alpha:1.0, blurX:30, blurY:30}, yoyo:true, repeat:1});
+				//TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.4, {glowFilter:{color:0xffcc00, alpha:1.0, blurX:30, blurY:30}, yoyo:true, repeat:1});
 			}
 		}
 		
@@ -168,7 +168,7 @@ package BalloonGame.GameRelated
 			}
 			if (body.GetUserData() is GameObject)
 			{
-				TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.4, {colorMatrixFilter:{colorize:0x3399ff, amount:1}, yoyo:true, repeat:1});
+				//TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.2, {colorMatrixFilter:{hue:10}, yoyo:true, repeat:1, repeatDelay:0.4});
 			}
 		}
         

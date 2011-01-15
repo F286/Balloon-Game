@@ -14,6 +14,12 @@ package BalloonGame.Ingame
 	import Box2D.Collision.Shapes.*;
 	import Box2D.Common.Math.*;
 	
+	// Greensock
+	import com.greensock.*;
+	import com.greensock.easing.*;
+	import com.greensock.plugins.*;
+	TweenPlugin.activate([DropShadowFilterPlugin]);
+	
 	/**
 	 * ...
 	 * @author Free
@@ -24,6 +30,8 @@ package BalloonGame.Ingame
 		public function Player(drawObject:Sprite, gameObjectType:Number = GameObject.BOX, density:Number = 18) 
 		{
 			super(drawObject, gameObjectType, density, -1);
+				
+			TweenMax.to(drawObject, 1, {dropShadowFilter:{color:0x000000, alpha:1, blurX:12, blurY:12, distance:3}});
 			
 			//this.Body.on
 			this.Body.SetSleepingAllowed(false);

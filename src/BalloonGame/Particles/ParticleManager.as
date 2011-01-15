@@ -27,7 +27,7 @@ package BalloonGame.Particles
 		
 		private var gamemanager:GameManager;
 		
-		public static var MaxParticles:int = 60;
+		public static var MaxParticles:int = 30;
 		
 		public function ParticleManager(gamemanager:GameManager) 
 		{

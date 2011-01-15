@@ -69,12 +69,13 @@ package BalloonGame.GameStates
 			// Buttons
 			buildMode = 0;
 			buttonList = new Vector.<GlowButton>();
-			buttonList.push(new GlowButton(screenOverlay, "balloonButton", "balloonButtonGraphic", OnBalloonButton, 0xff0000));
-			buttonList.push(new GlowButton(screenOverlay, "gunButton", "gunButtonGraphic", OnGunButton, 0x66ccff));
-			buttonList.push(new GlowButton(screenOverlay, "thrusterButton", "thrusterButtonGraphic", OnThrusterButton, 0x00ff00));
-			buttonList.push(new GlowButton(screenOverlay, "rapidGunButton", "rapidGunGraphic", OnRapidFireButton, 0xffff00));
+			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "balloonButton", "balloonButtonGraphic", OnBalloonButton, 0xff0000));
+			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "gunButton", "gunButtonGraphic", OnGunButton, 0x66ccff));
+			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "thrusterButton", "thrusterButtonGraphic", OnThrusterButton, 0x00ff00));
+			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "rapidGunButton", "rapidGunGraphic", OnRapidFireButton, 0xffff00));
+			buttonList[buildMode].AddGlow();
 			
-			menuButton = new GlowButton(screenOverlay, "menuButton", "menuButtonGraphic", MenuButtonClick, 0x66ccff);
+			menuButton = new GlowButton(screenOverlay["menuButtonContainer"], "menuButton", "menuButtonGraphic", MenuButtonClick, 0x66ccff);
 			
 			buildPrices = new Vector.<Number>();
 			buildPrices.push(50);
@@ -301,9 +302,9 @@ package BalloonGame.GameStates
 			// Buttons
 			for (var i:int = 0; i < buttonList.length; i++) 
 			{
-				buttonList[i].Dispose(screenOverlay);
+				buttonList[i].Dispose(screenOverlay["buildButtons"]);
 			}
-			menuButton.Dispose(screenOverlay);
+			menuButton.Dispose(screenOverlay["menuButtonContainer"]);
             
             // Movieclip events
             MovieClip(screenOverlay).removeEventListener(Event.EXIT_FRAME, ScreenOverlayExitFrame);
