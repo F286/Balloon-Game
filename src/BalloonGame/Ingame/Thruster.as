@@ -26,8 +26,6 @@ package BalloonGame.Ingame
 		{
 			super(position, attachBody, attachPosition, new ThrusterSprite(), GameObject.BOX, 5);
 			
-			this.Body.GetFixtureList().SetSensor(true);
-			
 			this.instantAim = false;
 			this.coolDown = 0.15;
 		}

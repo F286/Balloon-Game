@@ -41,10 +41,12 @@ package BalloonGame.Ingame
 			
 			this.drawObject.Play();
 			
-			// Creates the bullet
+			// Find start / end points of raycast
 			var start:b2Vec2 = Body.GetWorldPoint(new b2Vec2(0, 0));
 			var end:b2Vec2 = start.Copy();
 			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
+			
+			// Creates the bullet
 			return new Bullet(start, end, 150, 50, callback);
 		}
 	}

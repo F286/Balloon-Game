@@ -108,12 +108,12 @@ package BalloonGame.Enemies
 			var decal:DrawObject = new DrawObject(new ExplodeSprite());
 			decal.SetPosition(this.Body.GetPosition());
 			GameManager.AddDecal(decal);
-			TweenMax.to(decal.sprite, 1, {autoAlpha:0});
+			TweenMax.to(decal.sprite, 2, {autoAlpha:0, scaleX:1.3, scaleY:1.3});
 		}
 		
 		private function ExplodeCallback(obj:GameObject) : void
 		{
-			TweenMax.to(obj.drawObject.sprite, 0.9, {colorMatrixFilter:{brightness:1.5}, ease:Circ.easeOut, yoyo:true, repeat:1});
+			//TweenMax.to(obj.drawObject.sprite, 0.9, {colorMatrixFilter:{brightness:1.5}, ease:Circ.easeOut, yoyo:true, repeat:1});
 		}
 		
 		private function OnContact(a:GameObject, b:GameObject, contactInfo:ContactInfo) : void

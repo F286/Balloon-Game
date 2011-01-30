@@ -13,6 +13,10 @@ package BalloonGame.Ingame
 	
 	import BalloonGame.Physics.*;
 	
+	// Greensock
+	import com.greensock.*;
+	import com.greensock.easing.*;
+	
 	/**
 	 * ...
 	 * @author Free
@@ -25,6 +29,8 @@ package BalloonGame.Ingame
 		public function RapidGun(position:b2Vec2, attachBody:b2Body, attachPosition:b2Vec2)
 		{
 			super(position, attachBody, attachPosition, new GunSprite(), GameObject.BOX, 5);
+			
+			this.drawObject.Play(true);
 			
 			this.coolDown = 0.1;
 		}
@@ -41,11 +47,13 @@ package BalloonGame.Ingame
 			
 			this.drawObject.Play();
 			
-			// Creates the bullet
+			// Find start / end points of raycast
 			var start:b2Vec2 = Body.GetWorldPoint(new b2Vec2(0, 0));
 			var end:b2Vec2 = start.Copy();
 			end.Add( Body.GetWorldVector(new b2Vec2(0, -1000)) );
-			return new Bullet(start, end, 0, 5, callback);
+			
+			// Creates the body
+			return new Bullet(start, end, 0, 3, callback, 0xffff66, 0.2);
 		}
 	}
 }

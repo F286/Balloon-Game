@@ -20,13 +20,13 @@ package BalloonGame.GameRelated
 		public var IsAlive:Boolean = true;
 		public var OnDeath:Function;
 		
-		public function ComplexGameObject(health:Number, drawObject:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10, groupIndex:Number = 0) 
+		public function ComplexGameObject(health:Number, drawObject:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10, groupIndex:Number = 0, scale:Number = 1) 
 		{
 			//this = obj;
 			this.Health = health;
 			this.DamageTaken = 0;
 			
-			super(drawObject, shapeType, density, groupIndex);
+			super(drawObject, shapeType, density, groupIndex, scale);
 		}
 		
 		override public function Update(timeStep:Number):void 

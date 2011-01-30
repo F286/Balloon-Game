@@ -226,7 +226,7 @@ package BalloonGame.GameRelated
 			for (var d:int = 0; d < decalsToAdd.length; d++) 
 			{
 				decals.push(decalsToAdd[d]);
-				AddSprite(decals[d].sprite);
+				AddSprite(decalsToAdd[d].sprite);
 			}
 			if (decalsToAdd.length > 0)
 			{

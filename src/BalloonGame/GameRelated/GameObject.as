@@ -32,7 +32,7 @@ package BalloonGame.GameRelated
 		public var UniqueTag:String;
 		
 		// If Density == 0, then the object's static
-		public function GameObject(sprite:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10, groupIndex:Number = 0) 
+		public function GameObject(sprite:Sprite, shapeType:Number = GameObject.BOX, density:Number = 10, groupIndex:Number = 0, scale:Number = 1) 
 		{
 			// Graphics
 			this.drawObject = new DrawObject(sprite);
@@ -57,13 +57,13 @@ package BalloonGame.GameRelated
 			var shape:b2Shape;
 			if (shapeType == GameObject.CIRCLE)
 			{
-				var radius:Number = Math.max(sprite.width, sprite.height) / PhysicsManager.Scale / 2;
+				var radius:Number = Math.max(sprite.width, sprite.height) / PhysicsManager.Scale / 2 * scale;
 				shape = new b2CircleShape(radius);
 			}
 			else
 			{
 				shape = new b2PolygonShape();
-				b2PolygonShape(shape).SetAsBox(sprite.width / PhysicsManager.Scale / 2, sprite.height / PhysicsManager.Scale / 2);
+				b2PolygonShape(shape).SetAsBox(sprite.width / PhysicsManager.Scale / 2 * scale, sprite.height / PhysicsManager.Scale / 2 * scale);
 			}
 			
 			

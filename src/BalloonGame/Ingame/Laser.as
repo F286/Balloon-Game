@@ -46,7 +46,8 @@ package BalloonGame.Ingame
 		
 		public var Damage:Number = 10;
 		
-		public function Laser(drawObject:Sprite, onTime:Number = 1.2, offTime:Number = 2.0) 
+		//public function Laser(drawObject:Sprite, onTime:Number = 1.2, offTime:Number = 2.0) 
+		public function Laser(drawObject:Sprite, onTime:Number = 0.7, offTime:Number = 3.0) 
 		{
 			super(drawObject, GameObject.BOX, 0);
 			

@@ -38,6 +38,8 @@ package BalloonGame.Ingame
 			
 			super(sprite, shapeType, density, -1);
 			
+			this.Body.GetFixtureList().SetSensor(true);
+			
 			TweenMax.to(sprite, 1.2, { alpha:1, ease:Expo.easeOut, startAt:{alpha:0} } );
 			
 			// Set damping

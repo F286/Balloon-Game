@@ -40,7 +40,7 @@ package BalloonGame.Ingame
 			sprite.x = position.x * PhysicsManager.Scale;
 			sprite.y = position.y * PhysicsManager.Scale;
 			
-			super(10, sprite, GameObject.BOX, 1);
+			super(10, sprite, GameObject.CIRCLE, 1.705, 1, 0.75);
 			
 			TweenMax.to(sprite, 1.2, { alpha:1, ease:Expo.easeOut, startAt:{alpha:0} } );
 				

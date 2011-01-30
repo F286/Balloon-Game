@@ -66,7 +66,7 @@ package BalloonGame.GameRelated
 				keyboardDirection.x += 1;
 			}
 			
-			var canFire:Boolean = !gameManager.player.Body.GetFixtureList().TestPoint(Input.GetMousePosition(true));
+			var mouseNotOverlapPlayer:Boolean = !gameManager.player.Body.GetFixtureList().TestPoint(Input.GetMousePosition(true));
 			
 			for (var i:int = 0; i < gameManager.GameObjects.length; i++) 
 			{
@@ -75,7 +75,7 @@ package BalloonGame.GameRelated
 					case getQualifiedClassName(DefaultGun):
 						var gun:DefaultGun = DefaultGun(gameManager.GameObjects[i]);
 						
-						if (isMouseDown && gun.CanFire() && canFire && gameManager.IsIngame)
+						if (isMouseDown && gun.CanFire() && mouseNotOverlapPlayer && gameManager.IsIngame)
 						{
 							// Fires player's gun
 							gameManager.AddBullet(gun.Fire(OnDefaultBulletHit));
@@ -91,7 +91,7 @@ package BalloonGame.GameRelated
 					case getQualifiedClassName(RapidGun):
 						var rapidGun:RapidGun = RapidGun(gameManager.GameObjects[i]);
 						
-						if (isMouseDown && rapidGun.CanFire() && canFire && gameManager.IsIngame)
+						if (isMouseDown && rapidGun.CanFire() && mouseNotOverlapPlayer && gameManager.IsIngame)
 						{
 							// Fires player's gun
 							gameManager.AddBullet(rapidGun.Fire(OnRapidBulletHit));
@@ -124,6 +124,35 @@ package BalloonGame.GameRelated
 							thruster.UpdateAim(Input.GetMousePosition(true), true);
 						}
 						break;
+					
+					case getQualifiedClassName(TractorBeam):
+						var tractorBeam:TractorBeam = TractorBeam(gameManager.GameObjects[i]);
+						
+						if (isMouseDown && gameManager.IsIngame && Main.stateManager.currentStateNumber == StateManager.PLAYING)// && mouseNotOverlapPlayer)
+						{
+							if (tractorBeam.CanFire())
+							{
+								if (tractorBeam.IsTractorBeamActive)
+								{
+									tractorBeam.UpdateTractorBeam(Input.GetMousePosition(true));
+								}
+								else
+								{
+									// Fires player's gun
+									gameManager.AddBullet(tractorBeam.Fire(OnTractorBeamHit));
+								}
+								
+								// Particles!
+								//gameManager.Particles.AddSparks(tractorBeam.Body.GetWorldPoint(new b2Vec2(0, -0.6)), 1);
+							}
+						}
+						else
+						{
+							tractorBeam.DisableTractorBeam();
+						}
+						tractorBeam.UpdateAim(Input.GetMousePosition(), true);
+						break;
+						
 						
 						
 					case getQualifiedClassName(Airmine):
@@ -152,10 +181,6 @@ package BalloonGame.GameRelated
 			{
 				ComplexGameObject(body.GetUserData()).DamageTaken += bullet.damage;
 			}
-			if (body.GetUserData() is GameObject)
-			{
-				//TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.4, {glowFilter:{color:0xffcc00, alpha:1.0, blurX:30, blurY:30}, yoyo:true, repeat:1});
-			}
 		}
 		
 		private function OnDefaultBulletHit(bullet:Bullet, body:b2Body, contactPoint:b2Vec2, direction:b2Vec2) : void
@@ -166,10 +191,20 @@ package BalloonGame.GameRelated
 			{
 				ComplexGameObject(body.GetUserData()).DamageTaken += bullet.damage;
 			}
-			if (body.GetUserData() is GameObject)
+		}
+		
+		private function OnTractorBeamHit(bullet:Bullet, body:b2Body, contactPoint:b2Vec2, direction:b2Vec2) : void
+		{
+			gameManager.Particles.AddElectricSparks(contactPoint, 5);
+			
+			if (body.GetUserData() is ComplexGameObject)
 			{
-				//TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.2, {colorMatrixFilter:{hue:10}, yoyo:true, repeat:1, repeatDelay:0.4});
+				ComplexGameObject(body.GetUserData()).DamageTaken += bullet.damage;
 			}
+			//if (body.GetUserData() is GameObject)
+			//{
+				//TweenMax.to(GameObject(body.GetUserData()).drawObject.sprite, 0.5, {colorMatrixFilter:{hue:100}, yoyo:true, repeat:1, repeatDelay:0.4});
+			//}
 		}
         
     }

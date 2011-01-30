@@ -73,15 +73,17 @@ package BalloonGame.GameStates
 			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "gunButton", "gunButtonGraphic", OnGunButton, 0x66ccff));
 			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "thrusterButton", "thrusterButtonGraphic", OnThrusterButton, 0x00ff00));
 			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "rapidGunButton", "rapidGunGraphic", OnRapidFireButton, 0xffff00));
+			buttonList.push(new GlowButton(screenOverlay["buildButtons"], "tractorBeamButton", "tractorBeamGraphic", OnTractorBeamButton, 0x9900CC));
 			buttonList[buildMode].AddGlow();
 			
 			menuButton = new GlowButton(screenOverlay["menuButtonContainer"], "menuButton", "menuButtonGraphic", MenuButtonClick, 0x66ccff);
 			
 			buildPrices = new Vector.<Number>();
-			buildPrices.push(50);
-			buildPrices.push(500);
-			buildPrices.push(200);
-			buildPrices.push(600);
+			buildPrices.push(1000);
+			buildPrices.push(5000);
+			buildPrices.push(2500);
+			buildPrices.push(2500);
+			buildPrices.push(5000);
 			
 			moneyText = TextField(screenOverlay["moneyBox"]["moneyText"]);
             
@@ -126,6 +128,12 @@ package BalloonGame.GameStates
 		private function OnRapidFireButton() : void
 		{
 			buildMode = 3;
+			ChangeSelected();
+		}
+        
+		private function OnTractorBeamButton() : void
+		{
+			buildMode = 4;
 			ChangeSelected();
 		}
 		
@@ -206,6 +214,12 @@ package BalloonGame.GameStates
 						var bObject4:RapidGun = new RapidGun(mouse, attachBody, attachPosition);
 						gameManager.AddSprite(bObject4.drawObject.sprite);
 						gameManager.AddGameObject(bObject4);
+						break;
+						
+					case 4:
+						var bObject5:TractorBeam = new TractorBeam(mouse, attachBody, attachPosition);
+						gameManager.AddSprite(bObject5.drawObject.sprite);
+						gameManager.AddGameObject(bObject5);
 						break;
 						
 				}

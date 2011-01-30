@@ -1,6 +1,7 @@
 package BalloonGame.Physics 
 {
 	import BalloonGame.GameRelated.ComplexGameObject;
+	import BalloonGame.Ingame.Balloon;
 	import Box2D.Dynamics.Joints.b2MouseJoint;
 	import Box2D.Dynamics.Joints.b2MouseJointDef;
 	import flash.display.Sprite;
@@ -29,7 +30,7 @@ package BalloonGame.Physics
 		private var deltaDuration:Number;
 		private var callback:Function;
 		
-		public function ExplosionController(position:b2Vec2, damage:Number = 0, callback:Function = null, radius:Number = 3.5, impulse:Number = 1200, duration:Number = 0.0) 
+		public function ExplosionController(position:b2Vec2, damage:Number = 0, callback:Function = null, radius:Number = 3.5, impulse:Number = 600, duration:Number = 0.0) 
 		{
 			this.position = position;
 			this.damage = damage;
@@ -58,6 +59,12 @@ package BalloonGame.Physics
 					var intensity:Number = Math.max((radius - diff.Length()) / radius, 0);
 					diff.Normalize();
 					diff.Multiply(impulse * intensity);
+					
+					if ((body.GetUserData() is Balloon))
+					{
+						diff.Multiply(0.15);
+					}
+					
 					body.ApplyImpulse(diff, position.Copy());
 					
 					if (body.GetUserData() is ComplexGameObject)

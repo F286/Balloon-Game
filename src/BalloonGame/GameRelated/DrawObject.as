@@ -23,6 +23,8 @@ package BalloonGame.GameRelated
 		
 		private var isMovieClip:Boolean = false;
 		
+		private var loop:Boolean = false;
+		
 		public function DrawObject(sprite:Sprite) 
 		{
 			this.sprite = sprite;
@@ -42,8 +44,9 @@ package BalloonGame.GameRelated
 			this.sprite.y = position.y * PhysicsManager.Scale;
 		}
 		
-		public function Play() : void
+		public function Play(loop:Boolean = false) : void
 		{
+			this.loop = loop;
 			MovieClip(this.sprite).play();
 		}
 		
@@ -73,7 +76,10 @@ package BalloonGame.GameRelated
 				}
 				else if (movieClip.currentFrame == 1 && stopOnOne)
 				{
-					movieClip.stop();
+					if (loop == false)
+					{
+						movieClip.stop();
+					}
 					stopOnOne = false;
 				}
 			}
